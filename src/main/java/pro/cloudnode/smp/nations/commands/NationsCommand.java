@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.cloudnode.smp.nations.Nations;
+import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.BaseCommand;
 import pro.cloudnode.smp.nations.util.Nation;
 
@@ -232,9 +233,9 @@ public class NationsCommand extends BaseCommand {
     }
 
     private void list(CommandSender sender, String label, String[] args) {
-        sendMessage("<aqua>Listing all nations:");
+        sendMessage(t(Messages.LIST_HEADER));
         if (Nations.getNationManager().nations.isEmpty()) {
-            sendMessage("<gray>There are no nations.");
+            sendMessage(t(Messages.NO_NATIONS));
             return;
         }
         for (Nation nation : Nations.getNationManager().nations.values()) {

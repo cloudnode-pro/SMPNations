@@ -1,5 +1,6 @@
 package pro.cloudnode.smp.nations.util;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.cloudnode.smp.nations.Nations;
+import pro.cloudnode.smp.nations.locale.Messages;
 
 import java.util.List;
 
@@ -50,9 +52,32 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
     public void sendMessage(String message) {
         this.sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }
+    public void sendMessage(Component message) {
+        this.sender.sendMessage(message);
+    }
 
     public void sendMessage(Player player, String message) {
         player.sendMessage(MiniMessage.miniMessage().deserialize(message));
+    }
+
+    public void sendMessage(Player player, Component message) {
+        player.sendMessage(message);
+    }
+
+    public Component t(Messages message, Nation nation, Player player) {
+        return message.replacePlaceholders(nation, player);
+    }
+
+    public Component t(Messages message, Nation nation) {
+        return message.replacePlaceholders(nation);
+    }
+
+    public Component t(Messages message) {
+        return message.replacePlaceholders();
+    }
+
+    public Component t(Messages message, Player player) {
+        return message.replacePlaceholders(player);
     }
 
     @Override
