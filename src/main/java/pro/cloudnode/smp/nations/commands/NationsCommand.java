@@ -3,6 +3,7 @@ package pro.cloudnode.smp.nations.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.cloudnode.smp.nations.Nations;
@@ -25,7 +26,7 @@ public class NationsCommand extends BaseCommand {
 
         if (args.length == 0) {
             //@todo: send help message
-            sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit]");
+            sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|accept]");
             return;
         }
 
@@ -51,10 +52,35 @@ public class NationsCommand extends BaseCommand {
             case "option":
                 option(sender, label, args);
                 break;
+                case "join":
+                    join(sender, label, args);
+                break;
             default:
-                sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit]");
+                sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
                 break;
         }
+    }
+
+    private void join(CommandSender sender, String label, String[] args) {
+        if (args.length <= 1) {
+            sendMessage("<yellow>Usage: <white>/" + label + " join <nation>");
+            return;
+        }
+
+        Nation nation = Nations.getNationManager().get(args[1]);
+        if (nation == null) {
+            sendMessage("<red>Nation <white>" + args[1] + "<red> not found.");
+            return;
+        }
+
+        if (!nation.invited.contains(getPlayer().getUniqueId())) {
+            sendMessage("<red>You have not been invited to the nation <white>" + nation.name + "<red>.");
+            return;
+        }
+
+        nation.addMember(getPlayer().getUniqueId());
+        nation.removeInvited(getPlayer().getUniqueId());
+        sendMessage("<green>You have joined the nation <white>" + nation.name + "<green>.");
     }
 
     private void option(CommandSender sender, String label, String[] args) {
@@ -83,12 +109,18 @@ public class NationsCommand extends BaseCommand {
                     return;
                 }
                 String color = args[2];
-                if (!color.matches("^[a-zA-Z0-9]*$")) {
-                    sendMessage("<red>Invalid color, only alphanumeric characters are allowed. Example: <white>'red', '66ff00'");
-                    return;
+                // #hex or color
+                if (color.matches("^(?:#(?:[0-9a-fA-F]{3}){1,2}\\b|\\b\\w+\\b)")) {
+                    // check if its hex
+                    if (!color.startsWith("#") && color.length() == 6 && color.matches("[0-9a-fA-F]+")) {
+                        color = "#" + color;
+                    }
+                    nation.color = color;
+                    sendMessage("<green>You have set the color of your nation to <" + color +">" + color + "<green>.");
+                } else {
+                    sendMessage("<red>Invalid color, must be a hex code or a color name.");
                 }
-                nation.color = color;
-                sendMessage("<green>You have changed the color of your nation to <white>" + color + "<green>.");
+
                 break;
             default:
                 sendMessage("<yellow>Usage: <white>/" + label + " option <key> <value>");
@@ -163,6 +195,41 @@ public class NationsCommand extends BaseCommand {
     }
 
     private void invite(CommandSender sender, String label, String[] args) {
+        if (args.length <= 1) {
+            sendMessage("<yellow>Usage: <white>/" + label + " invite <player>");
+            return;
+        }
+
+        Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
+        if (nation == null) {
+            sendMessage("<red>You are not in a nation.");
+            return;
+        }
+
+        if (!nation.leader.equals(getPlayer().getUniqueId())) {
+            sendMessage("<red>You are not the leader of your nation.");
+            return;
+        }
+
+        Player player = Bukkit.getPlayer(args[1]);
+        if (player == null) {
+            sendMessage("<red>Player <white>" + args[1] + "<red> not found.");
+            return;
+        }
+
+        if (nation.members.contains(player.getUniqueId())) {
+            sendMessage("<red>Player <white>" + player.getName() + "<red> is already in your nation.");
+            return;
+        }
+
+        if (nation.invited.contains(player.getUniqueId())) {
+            sendMessage("<red>Player <white>" + player.getName() + "<red> is already invited to your nation.");
+            return;
+        }
+
+        nation.addInvited(player.getUniqueId());
+        sendMessage("<green>You have invited <white>" + player.getName() + "<green> to your nation.");
+        sendMessage(player, "<green>You have been invited to the nation <white>" + nation.name + "<green>. Use <white>/nations join " + nation.name + "<green> to join.");
     }
 
     public void newNation(CommandSender sender, String label, String[] args) {
@@ -191,23 +258,21 @@ public class NationsCommand extends BaseCommand {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        switch (args.length) {
-            case 1:
-                return Stream.of("create", "invite", "kick", "list", "quit", "info", "option").filter(s -> s.startsWith(args[0])).toList();
-            case 2:
-                switch (args[0]) {
-                    case "create":
-                        return List.of("<name>");
-                    case "invite":
-                    case "kick":
-                        return List.of("<player>");
-                    case "option":
-                        return List.of("color");
-                    default:
-                        return null;
-                }
-            default:
-                return null;
-        }
+        return switch (args.length) {
+            case 1 ->
+                    Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "accept").filter(s -> s.startsWith(args[0])).toList();
+            case 2 -> switch (args[0]) {
+                case "create" -> List.of("<name>");
+                case "invite", "kick" -> List.of("<player>");
+                case "option" -> List.of("color");
+                case "join" -> List.of("<nation>");
+                default -> null;
+            };
+            case 3 -> switch (args[1]) {
+                case "color" -> List.of("<color>");
+                default -> null;
+            };
+            default -> null;
+        };
     }
 }
