@@ -219,6 +219,7 @@ public class NationsCommand extends BaseCommand {
         if (nation.members.isEmpty() && nation.leader.equals(getPlayer().getUniqueId())) {
             Nations.getNationManager().remove(nation);
             sendMessage("<green>You have disbanded the nation <white>" + nation.name + "<green>.");
+            return;
         }
 
         if (nation.leader.equals(getPlayer().getUniqueId())) {
