@@ -2,3 +2,8 @@ name: Countries
 version: '${project.version}'
 main: pro.cloudnode.smp.countries.Countries
 api-version: '1.20'
+commands:
+  countries:
+    description: Main command for Countries
+    aliases: [c]
+    usage: /<command>
