@@ -2,8 +2,6 @@ name: Nations
 version: '${project.version}'
 main: pro.cloudnode.smp.nations.Nations
 api-version: '1.20'
-depend:
-  - InteractiveChat
 commands:
   nations:
     description: Main command for Nations

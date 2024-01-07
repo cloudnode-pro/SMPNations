@@ -50,7 +50,7 @@ public enum Messages {
     PLAYER_ALREADY_INVITED("player-already-invited", "<red>Player <white><player><red> is already invited to your nation."),
     INVITED_PLAYER("invited-player", "<aqua>You have invited <white><player><aqua> to your nation."),
     YOU_HAVE_BEEN_INVITED("you-have-been-invited", "<aqua>You have been invited to <white><nation_name><aqua>. Use <gray>/nations join <nation_name><aqua> to join."),
-    CHAT_FORMAT("chat-format", "<nation_color><nation_name> <player_name><reset>: <white>");
+    CHAT_FORMAT("chat-format", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name> <dark_gray>» <white>$2");
 
     public final String key;
 
@@ -70,7 +70,7 @@ public enum Messages {
     }
 
     // the objects may be Players or Nation objects
-    public Component replacePlaceholders(Object ...args) {
+    public String replacePlaceholders(Object ...args) {
         String message = this.getDefaultValue();
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
@@ -91,6 +91,6 @@ public enum Messages {
                 message = message.replace("$" + i, str);
             }
         }
-        return MiniMessage.miniMessage().deserialize(message);
+        return message;
     }
 }

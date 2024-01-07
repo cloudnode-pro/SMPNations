@@ -347,7 +347,8 @@ public class NationsCommand extends BaseCommand {
                 default -> null;
             };
             case 3 -> switch (args[1]) {
-                case "color" -> List.of("<color>");
+                // add some basic minecraft colors as well as a hex to indicate to the user that they can use hex
+                case "color" -> Stream.of("#66ff00", "white", "red", "blue", "green", "yellow", "purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple").filter(s -> s.startsWith(args[2])).toList();
                 default -> null;
             };
             default -> null;
