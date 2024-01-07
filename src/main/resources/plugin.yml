@@ -5,5 +5,5 @@ api-version: '1.20'
 commands:
   nations:
     description: Main command for Nations
-    aliases: [n, nation]
+    aliases: [ n, nation ]
     usage: /<command>
