@@ -50,12 +50,13 @@ public class NationManager {
     }
 
     public void save() {
-        if (nations.isEmpty()) return;
         // save nations
         YamlConfiguration config = new YamlConfiguration();
-        nations.forEach((uuid, nation) -> {
-            nation.save(config);
-        });
+        if (!nations.isEmpty()) {
+            nations.forEach((uuid, nation) -> {
+                nation.save(config);
+            });
+        }
 
         // write to plugins/Nations/nations.yml
         try {
