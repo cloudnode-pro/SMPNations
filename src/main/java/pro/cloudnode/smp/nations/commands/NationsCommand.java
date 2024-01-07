@@ -52,8 +52,8 @@ public class NationsCommand extends BaseCommand {
             case "option":
                 option(sender, label, args);
                 break;
-                case "join":
-                    join(sender, label, args);
+            case "join":
+                join(sender, label, args);
                 break;
             default:
                 sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
@@ -116,7 +116,7 @@ public class NationsCommand extends BaseCommand {
                         color = "#" + color;
                     }
                     nation.color = color;
-                    sendMessage("<green>You have set the color of your nation to <" + color +">" + color + "<green>.");
+                    sendMessage("<green>You have set the color of your nation to <" + color + ">" + color + "<green>.");
                 } else {
                     sendMessage("<red>Invalid color, must be a hex code or a color name.");
                 }
