@@ -50,7 +50,6 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
     public void sendMessage(String message) {
         this.sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }
-
     public void sendMessage(Player player, String message) {
         player.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }
