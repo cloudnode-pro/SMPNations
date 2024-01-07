@@ -65,52 +65,52 @@ public class NationsCommand extends BaseCommand {
     private void help(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
             // list of commands
-            sendMessage("<yellow>Commands:");
-            sendMessage("<white>- <yellow>/nations create <name> <gray>(create a new nation)");
-            sendMessage("<white>- <yellow>/nations invite <player> <gray>(invite a player to your nation)");
-            sendMessage("<white>- <yellow>/nations kick <player> <gray>(kick a player from your nation)");
-            sendMessage("<white>- <yellow>/nations list <gray>(list all nations)");
-            sendMessage("<white>- <yellow>/nations quit <gray>(quit your nation)");
-            sendMessage("<white>- <yellow>/nations info <gray>(get info about your nation)");
-            sendMessage("<white>- <yellow>/nations option <key> <value> <gray>(set options for your nation)");
-            sendMessage("<white>- <yellow>/nations join <nation> <gray>(join a nation)");
+            sendMessage("<aqua>Commands:");
+            sendMessage("<white>- <aqua>/nations create <name> <gray>(create a new nation)");
+            sendMessage("<white>- <aqua>/nations invite <player> <gray>(invite a player to your nation)");
+            sendMessage("<white>- <aqua>/nations kick <player> <gray>(kick a player from your nation)");
+            sendMessage("<white>- <aqua>/nations list <gray>(list all nations)");
+            sendMessage("<white>- <aqua>/nations quit <gray>(quit your nation)");
+            sendMessage("<white>- <aqua>/nations info <gray>(get info about your nation)");
+            sendMessage("<white>- <aqua>/nations option <key> <value> <gray>(set options for your nation)");
+            sendMessage("<white>- <aqua>/nations join <nation> <gray>(join a nation)");
             return;
         }
 
         switch (args[1]) {
             case "create":
-                sendMessage("<yellow>Usage: <white>/" + label + " create <name>");
+                sendMessage("<aqua>Usage: <white>/" + label + " create <name>");
                 break;
             case "invite":
-                sendMessage("<yellow>Usage: <white>/" + label + " invite <player>");
+                sendMessage("<aqua>Usage: <white>/" + label + " invite <player>");
                 break;
             case "kick":
-                sendMessage("<yellow>Usage: <white>/" + label + " kick <player>");
+                sendMessage("<aqua>Usage: <white>/" + label + " kick <player>");
                 break;
             case "list":
-                sendMessage("<yellow>Usage: <white>/" + label + " list");
+                sendMessage("<aqua>Usage: <white>/" + label + " list");
                 break;
             case "quit":
-                sendMessage("<yellow>Usage: <white>/" + label + " quit");
+                sendMessage("<aqua>Usage: <white>/" + label + " quit");
                 break;
             case "info":
-                sendMessage("<yellow>Usage: <white>/" + label + " info");
+                sendMessage("<aqua>Usage: <white>/" + label + " info");
                 break;
             case "option":
-                sendMessage("<yellow>Usage: <white>/" + label + " option <key> <value>");
+                sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
                 break;
             case "join":
-                sendMessage("<yellow>Usage: <white>/" + label + " join <nation>");
+                sendMessage("<aqua>Usage: <white>/" + label + " join <nation>");
                 break;
             default:
-                sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
+                sendMessage("<aqua>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
                 break;
         }
     }
 
     private void join(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " join <nation>");
+            sendMessage("<aqua>Usage: <white>/" + label + " join <nation>");
             return;
         }
 
@@ -132,7 +132,7 @@ public class NationsCommand extends BaseCommand {
 
     private void option(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " option <key> <value>");
+            sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
             return;
         }
 
@@ -152,7 +152,7 @@ public class NationsCommand extends BaseCommand {
         switch (key) {
             case "color":
                 if (args.length == 2) {
-                    sendMessage("<yellow>Usage: <white>/" + label + " option color <color>");
+                    sendMessage("<aqua>Usage: <white>/" + label + " option color <color>");
                     return;
                 }
                 String color = args[2];
@@ -170,7 +170,7 @@ public class NationsCommand extends BaseCommand {
 
                 break;
             default:
-                sendMessage("<yellow>Usage: <white>/" + label + " option <key> <value>");
+                sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
                 break;
         }
 
@@ -178,7 +178,7 @@ public class NationsCommand extends BaseCommand {
 
     private void info(CommandSender sender, String label, String[] args) {
         if (args.length > 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " info");
+            sendMessage("<aqua>Usage: <white>/" + label + " info");
             return;
         }
 
@@ -188,8 +188,8 @@ public class NationsCommand extends BaseCommand {
             return;
         }
 
-        sendMessage("<yellow>Info for nation <" + nation.color + ">" + nation.name + "<yellow>:");
-        sendMessage("<white>- <yellow>Leader: <white>" + Bukkit.getPlayer(nation.leader).getName());
+        sendMessage("<aqua>Info for nation <" + nation.color + ">" + nation.name + "<aqua>:");
+        sendMessage("<white>- <aqua>Leader: <white>" + Bukkit.getPlayer(nation.leader).getName());
         StringBuilder members = new StringBuilder();
         // add members (green if online, red if offline)
         nation.members.forEach(member -> {
@@ -200,13 +200,13 @@ public class NationsCommand extends BaseCommand {
             }
             members.append("<white>, ");
         });
-        sendMessage("<white>- <yellow>Members: <white>" + members);
-        sendMessage("<white>- <yellow>Color: <white>" + nation.color);
+        sendMessage("<white>- <aqua>Members: <white>" + members);
+        sendMessage("<white>- <aqua>Color: <white>" + nation.color);
     }
 
     private void quit(CommandSender sender, String label, String[] args) {
         if (args.length > 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " quit");
+            sendMessage("<aqua>Usage: <white>/" + label + " quit");
             return;
         }
 
@@ -231,15 +231,15 @@ public class NationsCommand extends BaseCommand {
     }
 
     private void list(CommandSender sender, String label, String[] args) {
-        sendMessage("<yellow>Listing all nations:");
+        sendMessage("<aqua>Listing all nations:");
         for (Nation nation : Nations.getNationManager().nations.values()) {
-            sendMessage("<white>- <yellow><hover:show_text:'<white>Leader: <yellow>" + Bukkit.getPlayer(nation.leader).getName() + "\n<white>Members: <yellow>" + nation.members.size() + "'>" + nation.name);
+            sendMessage("<white>- <aqua><hover:show_text:'<white>Leader: <aqua>" + Bukkit.getPlayer(nation.leader).getName() + "\n<white>Members: <aqua>" + nation.members.size() + "'>" + nation.name);
         }
     }
 
     private void kick(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " kick <player>");
+            sendMessage("<aqua>Usage: <white>/" + label + " kick <player>");
             return;
         }
 
@@ -272,7 +272,7 @@ public class NationsCommand extends BaseCommand {
 
     private void invite(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " invite <player>");
+            sendMessage("<aqua>Usage: <white>/" + label + " invite <player>");
             return;
         }
 
@@ -310,7 +310,7 @@ public class NationsCommand extends BaseCommand {
 
     public void newNation(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<yellow>Usage: <white>/" + label + " create <name>");
+            sendMessage("<aqua>Usage: <white>/" + label + " create <name>");
             return;
         }
 
