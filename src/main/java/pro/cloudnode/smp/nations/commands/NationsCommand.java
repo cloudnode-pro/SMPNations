@@ -25,8 +25,7 @@ public class NationsCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            //@todo: send help message
-            sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|accept]");
+            help(sender, label, args);
             return;
         }
 
@@ -54,6 +53,54 @@ public class NationsCommand extends BaseCommand {
                 break;
             case "join":
                 join(sender, label, args);
+                break;
+            case "help":
+            default:
+                help(sender, label, args);
+                break;
+        }
+    }
+
+    // help for each command
+    private void help(CommandSender sender, String label, String[] args) {
+        if (args.length <= 1) {
+            // list of commands
+            sendMessage("<yellow>Commands:");
+            sendMessage("<white>- <yellow>/nations create <name> <gray>(create a new nation)");
+            sendMessage("<white>- <yellow>/nations invite <player> <gray>(invite a player to your nation)");
+            sendMessage("<white>- <yellow>/nations kick <player> <gray>(kick a player from your nation)");
+            sendMessage("<white>- <yellow>/nations list <gray>(list all nations)");
+            sendMessage("<white>- <yellow>/nations quit <gray>(quit your nation)");
+            sendMessage("<white>- <yellow>/nations info <gray>(get info about your nation)");
+            sendMessage("<white>- <yellow>/nations option <key> <value> <gray>(set options for your nation)");
+            sendMessage("<white>- <yellow>/nations join <nation> <gray>(join a nation)");
+            return;
+        }
+
+        switch (args[1]) {
+            case "create":
+                sendMessage("<yellow>Usage: <white>/" + label + " create <name>");
+                break;
+            case "invite":
+                sendMessage("<yellow>Usage: <white>/" + label + " invite <player>");
+                break;
+            case "kick":
+                sendMessage("<yellow>Usage: <white>/" + label + " kick <player>");
+                break;
+            case "list":
+                sendMessage("<yellow>Usage: <white>/" + label + " list");
+                break;
+            case "quit":
+                sendMessage("<yellow>Usage: <white>/" + label + " quit");
+                break;
+            case "info":
+                sendMessage("<yellow>Usage: <white>/" + label + " info");
+                break;
+            case "option":
+                sendMessage("<yellow>Usage: <white>/" + label + " option <key> <value>");
+                break;
+            case "join":
+                sendMessage("<yellow>Usage: <white>/" + label + " join <nation>");
                 break;
             default:
                 sendMessage("<yellow>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
@@ -287,14 +334,16 @@ public class NationsCommand extends BaseCommand {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "accept", "help");
         return switch (args.length) {
             case 1 ->
-                    Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "accept").filter(s -> s.startsWith(args[0])).toList();
+                    commands.filter(s -> s.startsWith(args[0])).toList();
             case 2 -> switch (args[0]) {
                 case "create" -> List.of("<name>");
                 case "invite", "kick" -> List.of("<player>");
                 case "option" -> List.of("color");
                 case "join" -> List.of("<nation>");
+                case "help" -> commands.filter(s -> s.startsWith(args[1])).toList();
                 default -> null;
             };
             case 3 -> switch (args[1]) {
