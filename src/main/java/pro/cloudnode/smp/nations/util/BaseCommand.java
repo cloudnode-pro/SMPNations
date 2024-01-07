@@ -64,20 +64,8 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(message);
     }
 
-    public Component t(Messages message, Nation nation, Player player) {
-        return message.replacePlaceholders(nation, player);
-    }
-
-    public Component t(Messages message, Nation nation) {
-        return message.replacePlaceholders(nation);
-    }
-
-    public Component t(Messages message) {
-        return message.replacePlaceholders();
-    }
-
-    public Component t(Messages message, Player player) {
-        return message.replacePlaceholders(player);
+    public Component t(Messages message, Object ...args) {
+        return message.replacePlaceholders(args);
     }
 
     @Override

@@ -12,6 +12,7 @@ import pro.cloudnode.smp.nations.util.BaseCommand;
 import pro.cloudnode.smp.nations.util.Nation;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class NationsCommand extends BaseCommand {
@@ -21,7 +22,7 @@ public class NationsCommand extends BaseCommand {
 
     public void execute(CommandSender sender, String label, String[] args) {
         if (!isPlayer()) {
-            sendMessage("<red>Only players can use this command.");
+            sendMessage(t(Messages.ONLY_PLAYERS));
             return;
         }
 
@@ -66,85 +67,86 @@ public class NationsCommand extends BaseCommand {
     private void help(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
             // list of commands
-            sendMessage("<aqua>Commands:");
-            sendMessage("<white>- <aqua>/nations create <name> <gray>(create a new nation)");
-            sendMessage("<white>- <aqua>/nations invite <player> <gray>(invite a player to your nation)");
-            sendMessage("<white>- <aqua>/nations kick <player> <gray>(kick a player from your nation)");
-            sendMessage("<white>- <aqua>/nations list <gray>(list all nations)");
-            sendMessage("<white>- <aqua>/nations quit <gray>(quit your nation)");
-            sendMessage("<white>- <aqua>/nations info <gray>(get info about your nation)");
-            sendMessage("<white>- <aqua>/nations option <key> <value> <gray>(set options for your nation)");
-            sendMessage("<white>- <aqua>/nations join <nation> <gray>(join a nation)");
+            sendMessage(t(Messages.COMMANDS_HEADER));
+            sendMessage(t(Messages.COMMANDS_ITEM, "create", "<name>", "create a new nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "invite", "<player>", "invite a player to your nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "kick", "<player>", "kick a player from your nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "list", "", "list all nations"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "quit", "", "quit your nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "info", "", "get info about your nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "option", "<key> <value>", "set options for your nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "join", "<nation>", "join a nation"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "help", "", "show this help message"));
             return;
         }
 
         switch (args[1]) {
             case "create":
-                sendMessage("<aqua>Usage: <white>/" + label + " create <name>");
+                sendMessage(t(Messages.USAGE, label, "create", "<name>"));
                 break;
             case "invite":
-                sendMessage("<aqua>Usage: <white>/" + label + " invite <player>");
+                sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
                 break;
             case "kick":
-                sendMessage("<aqua>Usage: <white>/" + label + " kick <player>");
+                sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
                 break;
             case "list":
-                sendMessage("<aqua>Usage: <white>/" + label + " list");
+                sendMessage(t(Messages.USAGE, label, "list", ""));
                 break;
             case "quit":
-                sendMessage("<aqua>Usage: <white>/" + label + " quit");
+                sendMessage(t(Messages.USAGE, label, "quit", ""));
                 break;
             case "info":
-                sendMessage("<aqua>Usage: <white>/" + label + " info");
+                sendMessage(t(Messages.USAGE, label, "info", ""));
                 break;
             case "option":
-                sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
+                sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
                 break;
             case "join":
-                sendMessage("<aqua>Usage: <white>/" + label + " join <nation>");
+                sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
                 break;
             default:
-                sendMessage("<aqua>Usage: <white>/" + label + " [create|invite|kick|list|quit|join]");
+                help(sender, label, new String[0]);
                 break;
         }
     }
 
     private void join(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " join <nation>");
+            sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
             return;
         }
 
         Nation nation = Nations.getNationManager().get(args[1]);
         if (nation == null) {
-            sendMessage("<red>Nation <white>" + args[1] + "<red> not found.");
+            sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
             return;
         }
 
         if (!nation.invited.contains(getPlayer().getUniqueId())) {
-            sendMessage("<red>You have not been invited to the nation <white>" + nation.name + "<red>.");
+            sendMessage(t(Messages.NOT_INVITED_TO_NATION, nation));
             return;
         }
 
         nation.addMember(getPlayer().getUniqueId());
         nation.removeInvited(getPlayer().getUniqueId());
-        sendMessage("<green>You have joined the nation <white>" + nation.name + "<green>.");
+        sendMessage(t(Messages.JOINED_NATION, nation));
     }
 
     private void option(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
+            sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
             return;
         }
 
         Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage("<red>You are not in a nation.");
+            sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage("<red>You are not the leader of your nation.");
+            sendMessage(t(Messages.NOT_LEADER));
             return;
         }
 
@@ -153,7 +155,7 @@ public class NationsCommand extends BaseCommand {
         switch (key) {
             case "color":
                 if (args.length == 2) {
-                    sendMessage("<aqua>Usage: <white>/" + label + " option color <color>");
+                    sendMessage(t(Messages.USAGE, label, "option", "color <color>"));
                     return;
                 }
                 String color = args[2];
@@ -164,14 +166,14 @@ public class NationsCommand extends BaseCommand {
                         color = "#" + color;
                     }
                     nation.color = color;
-                    sendMessage("<green>You have set the color of your nation to <" + color + ">" + color + "<green>.");
+                    sendMessage(t(Messages.COLOR_SET, color));
                 } else {
-                    sendMessage("<red>Invalid color, must be a hex code or a color name.");
+                    sendMessage(t(Messages.INVALID_COLOR));
                 }
 
                 break;
             default:
-                sendMessage("<aqua>Usage: <white>/" + label + " option <key> <value>");
+                sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
                 break;
         }
 
@@ -179,56 +181,45 @@ public class NationsCommand extends BaseCommand {
 
     private void info(CommandSender sender, String label, String[] args) {
         if (args.length > 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " info");
+            sendMessage(t(Messages.USAGE, label, "info", ""));
             return;
         }
 
         Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage("<red>You are not in a nation.");
+            sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
-        sendMessage("<aqua>Info for nation <" + nation.color + ">" + nation.name + "<aqua>:");
-        sendMessage("<white>- <aqua>Leader: <white>" + Bukkit.getPlayer(nation.leader).getName());
-        StringBuilder members = new StringBuilder();
-        // add members (green if online, red if offline)
-        nation.members.forEach(member -> {
-            if (Bukkit.getPlayer(member) != null) {
-                members.append("<green>").append(Bukkit.getPlayer(member).getName());
-            } else {
-                members.append("<red>").append(Bukkit.getOfflinePlayer(member).getName());
-            }
-            members.append("<white>, ");
-        });
-        sendMessage("<white>- <aqua>Members: <white>" + members);
-        sendMessage("<white>- <aqua>Color: <white>" + nation.color);
+        sendMessage(t(Messages.INFO_HEADER, nation));
+        sendMessage(t(Messages.INFO_LEADER, Bukkit.getPlayer(nation.leader).getName()));
+        sendMessage(t(Messages.INFO_MEMBERS, nation.members.stream().map(Bukkit::getPlayer).filter(Objects::nonNull).map(Player::getName).toList().toString()));
     }
 
     private void quit(CommandSender sender, String label, String[] args) {
         if (args.length > 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " quit");
+            sendMessage(t(Messages.USAGE, label, "quit", ""));
             return;
         }
 
         Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage("<red>You are not in a nation.");
+            sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
         if (nation.members.isEmpty() && nation.leader.equals(getPlayer().getUniqueId())) {
+            sendMessage(t(Messages.NATION_DISBANDED, nation));
             Nations.getNationManager().remove(nation);
-            sendMessage("<green>You have disbanded the nation <white>" + nation.name + "<green>.");
             return;
         }
 
         if (nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage("<red>You cannot quit the nation because you are the leader. Use <white>/nations kick <player><red> to kick a member.");
+            sendMessage(t(Messages.CANT_QUIT_AS_LEADER));
             return;
         }
 
-        sendMessage("<green>You have quit the nation <white>" + nation.name + "<green>.");
+        sendMessage(t(Messages.QUIT_NATION, nation));
         nation.removeMember(getPlayer().getUniqueId());
     }
 
@@ -239,84 +230,85 @@ public class NationsCommand extends BaseCommand {
             return;
         }
         for (Nation nation : Nations.getNationManager().nations.values()) {
-            sendMessage("<white>- <aqua><hover:show_text:'<white>Leader: <aqua>" + Bukkit.getPlayer(nation.leader).getName() + "\n<white>Members: <aqua>" + nation.members.size() + "'>" + nation.name);
+            sendMessage(t(Messages.LIST_ITEM, nation));
         }
     }
 
     private void kick(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " kick <player>");
+            sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
             return;
         }
 
         Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage("<red>You are not in a nation.");
+            sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage("<red>You are not the leader of your nation.");
+            sendMessage(t(Messages.NOT_LEADER));
             return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
-            sendMessage("<red>Player <white>" + args[1] + "<red> not found.");
+            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
             return;
         }
 
         if (!nation.members.contains(player.getUniqueId())) {
-            sendMessage("<red>Player <white>" + player.getName() + "<red> is not in your nation.");
+            sendMessage(t(Messages.PLAYER_NOT_IN_NATION, player));
             return;
         }
 
         nation.removeMember(player.getUniqueId());
-        sendMessage("<green>You have kicked <white>" + player.getName() + "<green> from your nation.");
-        sendMessage(player, "<red>You have been kicked from the nation <white>" + nation.name + "<red>.");
+        sendMessage(t(Messages.YOU_HAVE_KICKED, player));
+        sendMessage(player, t(Messages.YOU_HAVE_BEEN_KICKED, nation));
     }
 
     private void invite(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " invite <player>");
+            sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
             return;
         }
 
         Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage("<red>You are not in a nation.");
+            sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage("<red>You are not the leader of your nation.");
+            sendMessage(t(Messages.NOT_LEADER));
             return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
-            sendMessage("<red>Player <white>" + args[1] + "<red> not found.");
+            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
             return;
         }
+        Nation inviteeNation = Nations.getNationManager().getPlayerNation(player.getUniqueId());
 
-        if (nation.members.contains(player.getUniqueId())) {
-            sendMessage("<red>Player <white>" + player.getName() + "<red> is already in your nation.");
+        if (inviteeNation != null) {
+            sendMessage(t(Messages.PLAYER_ALREADY_IN_NATION, player));
             return;
         }
 
         if (nation.invited.contains(player.getUniqueId())) {
-            sendMessage("<red>Player <white>" + player.getName() + "<red> is already invited to your nation.");
+            sendMessage(t(Messages.PLAYER_ALREADY_INVITED, player));
             return;
         }
 
         nation.addInvited(player.getUniqueId());
-        sendMessage("<green>You have invited <white>" + player.getName() + "<green> to your nation.");
-        sendMessage(player, "<green>You have been invited to the nation <white>" + nation.name + "<green>. Use <white>/nations join " + nation.name + "<green> to join.");
+        sendMessage(t(Messages.INVITED_PLAYER, player));
+        sendMessage(player, t(Messages.YOU_HAVE_BEEN_INVITED, nation));
     }
 
     public void newNation(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
-            sendMessage("<aqua>Usage: <white>/" + label + " create <name>");
+            sendMessage(t(Messages.USAGE, label, "create", "<name>"));
             return;
         }
 
@@ -324,7 +316,7 @@ public class NationsCommand extends BaseCommand {
 
         // check if name is valid (ascii)
         if (!name.matches("^[a-zA-Z0-9]*$")) {
-            sendMessage("<red>Invalid name, only alphanumeric characters are allowed.");
+            sendMessage(t(Messages.INVALID_NAME));
             return;
         }
 
@@ -335,12 +327,12 @@ public class NationsCommand extends BaseCommand {
         Nations.getNationManager().add(nation);
 
         // send message
-        sendMessage("<green>You have created a new nation called <white>" + name + "<green>.");
+        sendMessage(t(Messages.NEW_NATION, nation));
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "accept", "help");
+        Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "join", "help");
         return switch (args.length) {
             case 1 ->
                     commands.filter(s -> s.startsWith(args[0])).toList();
