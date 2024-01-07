@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static pro.cloudnode.smp.nations.Nations.t;
+
 public class NationsCommand extends BaseCommand {
     public NationsCommand(@NotNull Nations plugin) {
         super(plugin);

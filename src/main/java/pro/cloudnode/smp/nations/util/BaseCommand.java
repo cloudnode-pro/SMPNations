@@ -64,10 +64,6 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(message);
     }
 
-    public Component t(Messages message, Object ...args) {
-        return message.replacePlaceholders(args);
-    }
-
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return null;
