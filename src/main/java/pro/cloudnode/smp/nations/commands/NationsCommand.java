@@ -191,7 +191,36 @@ public class NationsCommand extends BaseCommand {
     }
 
     private void kick(CommandSender sender, String label, String[] args) {
+        if (args.length <= 1) {
+            sendMessage("<yellow>Usage: <white>/" + label + " kick <player>");
+            return;
+        }
 
+        Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
+        if (nation == null) {
+            sendMessage("<red>You are not in a nation.");
+            return;
+        }
+
+        if (!nation.leader.equals(getPlayer().getUniqueId())) {
+            sendMessage("<red>You are not the leader of your nation.");
+            return;
+        }
+
+        Player player = Bukkit.getPlayer(args[1]);
+        if (player == null) {
+            sendMessage("<red>Player <white>" + args[1] + "<red> not found.");
+            return;
+        }
+
+        if (!nation.members.contains(player.getUniqueId())) {
+            sendMessage("<red>Player <white>" + player.getName() + "<red> is not in your nation.");
+            return;
+        }
+
+        nation.removeMember(player.getUniqueId());
+        sendMessage("<green>You have kicked <white>" + player.getName() + "<green> from your nation.");
+        sendMessage(player, "<red>You have been kicked from the nation <white>" + nation.name + "<red>.");
     }
 
     private void invite(CommandSender sender, String label, String[] args) {
