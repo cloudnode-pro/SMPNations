@@ -233,6 +233,10 @@ public class NationsCommand extends BaseCommand {
 
     private void list(CommandSender sender, String label, String[] args) {
         sendMessage("<aqua>Listing all nations:");
+        if (Nations.getNationManager().nations.isEmpty()) {
+            sendMessage("<gray>There are no nations.");
+            return;
+        }
         for (Nation nation : Nations.getNationManager().nations.values()) {
             sendMessage("<white>- <aqua><hover:show_text:'<white>Leader: <aqua>" + Bukkit.getPlayer(nation.leader).getName() + "\n<white>Members: <aqua>" + nation.members.size() + "'>" + nation.name);
         }
