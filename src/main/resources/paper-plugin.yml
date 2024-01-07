@@ -1,0 +1,4 @@
+name: Countries
+version: '${project.version}'
+main: pro.cloudnode.smp.countries.Countries
+api-version: '1.20'
