@@ -1,4 +1,4 @@
-package pro.cloudnode.smp.countries.util;
+package pro.cloudnode.smp.nations.util;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
@@ -8,30 +8,30 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pro.cloudnode.smp.countries.Countries;
+import pro.cloudnode.smp.nations.Nations;
 
 import java.util.List;
 
 public class BaseCommand implements CommandExecutor, TabCompleter {
-    private final @NotNull Countries plugin;
+    private final @NotNull Nations plugin;
     private CommandSender sender;
 
-    public BaseCommand(@NotNull Countries plugin) {
+    public BaseCommand(@NotNull Nations plugin) {
         this.plugin = plugin;
     }
 
-    public @NotNull Countries getPlugin() {
+    public @NotNull Nations getPlugin() {
         return plugin;
     }
 
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSender sender, String label, String[] args) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         this.sender = sender;
-        execute(sender, args);
+        execute(sender, label, args);
         return true;
     }
 

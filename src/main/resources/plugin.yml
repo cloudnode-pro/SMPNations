@@ -1,9 +1,9 @@
-name: Countries
+name: Nations
 version: '${project.version}'
-main: pro.cloudnode.smp.countries.Countries
+main: pro.cloudnode.smp.nations.Nations
 api-version: '1.20'
 commands:
-  countries:
-    description: Main command for Countries
-    aliases: [c]
+  nations:
+    description: Main command for Nations
+    aliases: [n, nation]
     usage: /<command>
