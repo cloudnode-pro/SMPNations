@@ -22,6 +22,10 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         this.plugin = plugin;
     }
 
+    /**
+     * Get the plugin instance
+     * @return The plugin instance
+     */
     public @NotNull Nations getPlugin() {
         return plugin;
     }
@@ -37,29 +41,62 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    /**
+     * Check if the sender is a player
+     * @return Whether the sender is a player
+     */
     public boolean isPlayer() {
         return !(this.sender == null) && this.sender instanceof Player;
     }
 
+    /**
+     * Get the sender a player
+     * @return The player
+     * @implNote You should check with {@link #isPlayer()} before using this method
+     */
     public Player getPlayer() {
         return (Player) sender;
     }
+
+    /**
+     * Get the command sender
+     * @return The command sender
+     */
 
     public CommandSender getSender() {
         return sender;
     }
 
+    /**
+     * Send a message to the sender
+     * @param message The message to send
+     */
     public void sendMessage(String message) {
         this.sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }
+
+    /**
+     * Send a message to the sender
+     * @param message The message to send
+     */
     public void sendMessage(Component message) {
         this.sender.sendMessage(message);
     }
 
+    /**
+     * Send a message to a player
+     * @param player The player to send the message to
+     * @param message The message to send
+     */
     public void sendMessage(Player player, String message) {
         player.sendMessage(MiniMessage.miniMessage().deserialize(message));
     }
 
+    /**
+     * Send a message to a player
+     * @param player The player to send the message to
+     * @param message The message to send
+     */
     public void sendMessage(Player player, Component message) {
         player.sendMessage(message);
     }

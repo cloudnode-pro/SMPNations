@@ -38,10 +38,22 @@ public final class Nations extends JavaPlugin {
         nationManager.save();
     }
 
+    /**
+     * Translate a message to a component and replace placeholders
+     * @param message the message to translate
+     * @param args the arguments to replace placeholders with
+     * @return the translated component
+     */
     public static Component t(Messages message, Object ...args) {
         return MiniMessage.miniMessage().deserialize(message.replacePlaceholders(args));
     }
 
+    /**
+     * Translate a message to a string and replace placeholders
+     * @param message the message to translate
+     * @param args the arguments to replace placeholders with
+     * @return the translated string
+     */
     public static String ts(Messages message, Object ...args) {
         return message.replacePlaceholders(args);
     }

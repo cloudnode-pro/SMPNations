@@ -69,7 +69,11 @@ public enum Messages {
         return default_value;
     }
 
-    // the objects may be Players or Nation objects
+    /**
+     * Translate a message to a component and replace placeholders
+     * @param args the arguments to replace placeholders with
+     * @return the translated component
+     */
     public String replacePlaceholders(Object ...args) {
         String message = this.getDefaultValue();
         for (int i = 0; i < args.length; i++) {

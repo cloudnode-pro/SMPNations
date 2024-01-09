@@ -40,6 +40,10 @@ public class Nation {
         this.load((YamlConfiguration) config);
     }
 
+    /**
+     * Save the nation to a config
+     * @param config The config to save to
+     */
     public void save(YamlConfiguration config) {
         config.set("nations." + uuid + ".name", name);
         config.set("nations." + uuid + ".leader", leader.toString());
@@ -48,6 +52,10 @@ public class Nation {
         config.set("nations." + uuid + ".color", color);
     }
 
+    /**
+     * Load a nation from the config
+     * @param config The config to load from
+     */
     public void load(YamlConfiguration config) {
         this.name = Objects.requireNonNull(config.getString("nations." + uuid + ".name"));
         this.leader = UUID.fromString(Objects.requireNonNull(config.getString("nations." + uuid + ".leader")));
@@ -68,18 +76,34 @@ public class Nation {
         this.color = Objects.requireNonNull(config.getString("nations." + uuid + ".color"));
     }
 
+    /**
+     * Add a member to the nation
+     * @param uuid The UUID of the player to add
+     */
     public void addMember(UUID uuid) {
         members.add(uuid);
     }
 
+    /**
+     * Remove a member from the nation
+     * @param uuid The UUID of the player to remove
+     */
     public void removeMember(UUID uuid) {
         members.remove(uuid);
     }
 
+    /**
+     * Add an invited player
+     * @param uuid The UUID of the player to add
+     */
     public void addInvited(UUID uuid) {
         invited.add(uuid);
     }
 
+    /**
+     * Remove an invited player
+     * @param uuid The UUID of the player to remove
+     */
     public void removeInvited(UUID uuid) {
         invited.remove(uuid);
     }
