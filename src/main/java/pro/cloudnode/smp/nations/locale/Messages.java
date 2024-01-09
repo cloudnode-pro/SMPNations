@@ -1,10 +1,7 @@
 package pro.cloudnode.smp.nations.locale;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.util.Nation;
 
 public enum Messages {
@@ -71,10 +68,11 @@ public enum Messages {
 
     /**
      * Translate a message to a component and replace placeholders
+     *
      * @param args the arguments to replace placeholders with
      * @return the translated component
      */
-    public String replacePlaceholders(Object ...args) {
+    public String replacePlaceholders(Object... args) {
         String message = this.getDefaultValue();
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];

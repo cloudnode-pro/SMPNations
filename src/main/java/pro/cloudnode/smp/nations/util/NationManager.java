@@ -19,6 +19,7 @@ public class NationManager {
 
     /**
      * Add a nation
+     *
      * @param nation The nation to add
      */
     public void add(Nation nation) {
@@ -27,6 +28,7 @@ public class NationManager {
 
     /**
      * Remove a nation
+     *
      * @param nation The nation to remove
      */
     public void remove(Nation nation) {
@@ -35,6 +37,7 @@ public class NationManager {
 
     /**
      * Get a nation by UUID
+     *
      * @param uuid The UUID of the nation
      * @return The nation, or null if not found
      */
@@ -44,6 +47,7 @@ public class NationManager {
 
     /**
      * Get the nation of a player
+     *
      * @param uuid The UUID of the player
      * @return The nation, or null if not found
      */
@@ -61,6 +65,7 @@ public class NationManager {
 
     /**
      * Get a nation by name
+     *
      * @param name The name of the nation
      * @return The nation, or null if not found
      */
@@ -75,6 +80,7 @@ public class NationManager {
 
     /**
      * Save nations to the config
+     *
      * @implNote This will overwrite the config
      * @implNote This saves into `plugins/Nations/nations.yml`
      */

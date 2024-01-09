@@ -42,6 +42,7 @@ public class Nation {
 
     /**
      * Save the nation to a config
+     *
      * @param config The config to save to
      */
     public void save(YamlConfiguration config) {
@@ -54,6 +55,7 @@ public class Nation {
 
     /**
      * Load a nation from the config
+     *
      * @param config The config to load from
      */
     public void load(YamlConfiguration config) {
@@ -78,6 +80,7 @@ public class Nation {
 
     /**
      * Add a member to the nation
+     *
      * @param uuid The UUID of the player to add
      */
     public void addMember(UUID uuid) {
@@ -86,6 +89,7 @@ public class Nation {
 
     /**
      * Remove a member from the nation
+     *
      * @param uuid The UUID of the player to remove
      */
     public void removeMember(UUID uuid) {
@@ -94,6 +98,7 @@ public class Nation {
 
     /**
      * Add an invited player
+     *
      * @param uuid The UUID of the player to add
      */
     public void addInvited(UUID uuid) {
@@ -102,6 +107,7 @@ public class Nation {
 
     /**
      * Remove an invited player
+     *
      * @param uuid The UUID of the player to remove
      */
     public void removeInvited(UUID uuid) {

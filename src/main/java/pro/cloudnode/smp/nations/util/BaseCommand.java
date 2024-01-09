@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.cloudnode.smp.nations.Nations;
-import pro.cloudnode.smp.nations.locale.Messages;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Get the plugin instance
+     *
      * @return The plugin instance
      */
     public @NotNull Nations getPlugin() {
@@ -43,6 +43,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Check if the sender is a player
+     *
      * @return Whether the sender is a player
      */
     public boolean isPlayer() {
@@ -51,6 +52,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Get the sender a player
+     *
      * @return The player
      * @implNote You should check with {@link #isPlayer()} before using this method
      */
@@ -60,6 +62,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Get the command sender
+     *
      * @return The command sender
      */
 
@@ -69,6 +72,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Send a message to the sender
+     *
      * @param message The message to send
      */
     public void sendMessage(String message) {
@@ -77,6 +81,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Send a message to the sender
+     *
      * @param message The message to send
      */
     public void sendMessage(Component message) {
@@ -85,7 +90,8 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Send a message to a player
-     * @param player The player to send the message to
+     *
+     * @param player  The player to send the message to
      * @param message The message to send
      */
     public void sendMessage(Player player, String message) {
@@ -94,7 +100,8 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     /**
      * Send a message to a player
-     * @param player The player to send the message to
+     *
+     * @param player  The player to send the message to
      * @param message The message to send
      */
     public void sendMessage(Player player, Component message) {

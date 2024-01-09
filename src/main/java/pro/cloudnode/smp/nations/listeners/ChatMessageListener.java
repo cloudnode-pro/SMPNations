@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.Nation;

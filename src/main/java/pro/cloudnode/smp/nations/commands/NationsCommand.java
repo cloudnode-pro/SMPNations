@@ -336,8 +336,7 @@ public class NationsCommand extends BaseCommand {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "join", "help");
         return switch (args.length) {
-            case 1 ->
-                    commands.filter(s -> s.startsWith(args[0])).toList();
+            case 1 -> commands.filter(s -> s.startsWith(args[0])).toList();
             case 2 -> switch (args[0]) {
                 case "create" -> List.of("<name>");
                 case "invite", "kick" -> List.of("<player>");
@@ -348,7 +347,8 @@ public class NationsCommand extends BaseCommand {
             };
             case 3 -> switch (args[1]) {
                 // add some basic minecraft colors as well as a hex to indicate to the user that they can use hex
-                case "color" -> Stream.of("#66ff00", "white", "red", "blue", "green", "yellow", "purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple").filter(s -> s.startsWith(args[2])).toList();
+                case "color" ->
+                        Stream.of("#66ff00", "white", "red", "blue", "green", "yellow", "purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple").filter(s -> s.startsWith(args[2])).toList();
                 default -> null;
             };
             default -> null;
