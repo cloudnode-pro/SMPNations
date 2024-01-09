@@ -47,7 +47,8 @@ public enum Messages {
     PLAYER_ALREADY_INVITED("player-already-invited", "<red>Player <white><player><red> is already invited to your nation."),
     INVITED_PLAYER("invited-player", "<aqua>You have invited <white><player><aqua> to your nation."),
     YOU_HAVE_BEEN_INVITED("you-have-been-invited", "<aqua>You have been invited to <white><nation_name><aqua>. Use <gray>/nations join <nation_name><aqua> to join."),
-    CHAT_FORMAT("chat-format", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name> <dark_gray>» <white>$2");
+    CHAT_FORMAT_NATION("chat-format", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name> <dark_gray>» <white>$2"),
+    CHAT_FORMAT("chat-format", "<player_name> <dark_gray>» <white>$1");
 
     public final String key;
 

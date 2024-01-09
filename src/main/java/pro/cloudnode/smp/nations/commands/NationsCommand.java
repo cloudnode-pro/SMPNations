@@ -161,7 +161,8 @@ public class NationsCommand extends BaseCommand {
                     return;
                 }
                 String color = args[2];
-                // #hex or color
+                //@todo verify if color is valid,
+                //can be either hex or a minecraft color from a list
                 if (color.matches("^(?:#(?:[0-9a-fA-F]{3}){1,2}\\b|\\b\\w+\\b)")) {
                     // check if its hex
                     if (!color.startsWith("#") && color.length() == 6 && color.matches("[0-9a-fA-F]+")) {
