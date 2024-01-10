@@ -376,7 +376,7 @@ public class NationsCommand extends BaseCommand {
         String name = args[1];
 
         // check if name is valid (ascii)
-        if (!name.matches("^[a-zA-Z0-9]*$")) {
+        if (!name.matches("^[a-zA-Z0-9]*$") || name.length() > 16) {
             sendMessage(t(Messages.INVALID_NAME));
             return;
         }

@@ -41,7 +41,7 @@ public enum Messages {
     YOU_HAVE_BEEN_KICKED("you-have-been-kicked", "<red>(!) You have been kicked from <white><nation_name>"),
     PLAYER_NOT_FOUND("player-not-found", "<red>(!) Player <gray>$0<red> Not found."),
     PLAYER_NOT_IN_NATION("player-not-in-nation", "<red>(!) Player <white><player><red> is not in your nation."),
-    INVALID_NAME("invalid-name", "<red>(!) Invalid name, only alphanumeric characters are allowed."),
+    INVALID_NAME("invalid-name", "<red>(!) Invalid name, only alphanumeric characters are allowed and may not be longer than 16 characters."),
     NEW_NATION("new-nation", "<aqua>You have created the nation <nation_color><nation_name><aqua>"),
     ONLY_PLAYERS("only-players", "<red>(!) Only players can use this command."),
 
