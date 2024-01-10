@@ -22,6 +22,7 @@ import static pro.cloudnode.smp.nations.Nations.t;
 public class NationsCommand extends BaseCommand {
     private final List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
     private final List<String> EMPTY = new ArrayList<>();
+
     public NationsCommand(@NotNull Nations plugin) {
         super(plugin);
     }
