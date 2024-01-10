@@ -1,5 +1,6 @@
 package pro.cloudnode.smp.nations.commands;
 
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.BaseCommand;
 import pro.cloudnode.smp.nations.util.Nation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -21,6 +23,9 @@ public class NationsCommand extends BaseCommand {
     public NationsCommand(@NotNull Nations plugin) {
         super(plugin);
     }
+
+    private final List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
+    private final List<String> EMPTY = new ArrayList<>();
 
     public void execute(CommandSender sender, String label, String[] args) {
         if (!isPlayer()) {
@@ -79,6 +84,10 @@ public class NationsCommand extends BaseCommand {
             sendMessage(t(Messages.COMMANDS_ITEM, "option", "<key> <value>", "set options for your nation"));
             sendMessage(t(Messages.COMMANDS_ITEM, "join", "<nation>", "join a nation"));
             sendMessage(t(Messages.COMMANDS_ITEM, "help", "", "show this help message"));
+            if (sender.hasPermission("nations.admin")) {
+                sendMessage(t(Messages.COMMANDS_ITEM, "force-delete", "<nation>", "force delete a nation"));
+                sendMessage(t(Messages.COMMANDS_ITEM, "reload", "", "reload the plugin"));
+            }
             return;
         }
 
@@ -160,19 +169,14 @@ public class NationsCommand extends BaseCommand {
                     sendMessage(t(Messages.USAGE, label, "option", "color <color>"));
                     return;
                 }
-                String color = args[2];
-                //@todo verify if color is valid,
-                //can be either hex or a minecraft color from a list
-                if (color.matches("^(?:#(?:[0-9a-fA-F]{3}){1,2}\\b|\\b\\w+\\b)")) {
-                    // check if its hex
-                    if (!color.startsWith("#") && color.length() == 6 && color.matches("[0-9a-fA-F]+")) {
-                        color = "#" + color;
-                    }
-                    nation.color = color;
-                    sendMessage(t(Messages.COLOR_SET, color));
-                } else {
+                String color = args[2].toLowerCase();
+                boolean isHex = color.startsWith("#") && color.length() == 7 && color.matches("[0-9a-fA-F]+");
+                if (!COLORS.contains(color) && !isHex) {
                     sendMessage(t(Messages.INVALID_COLOR));
+                    return;
                 }
+                
+                nation.color = color;
 
                 break;
             default:
@@ -336,23 +340,23 @@ public class NationsCommand extends BaseCommand {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "join", "help");
+        if (sender.hasPermission("nations.admin")) commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
         return switch (args.length) {
             case 1 -> commands.filter(s -> s.startsWith(args[0])).toList();
             case 2 -> switch (args[0]) {
                 case "create" -> List.of("<name>");
-                case "invite", "kick" -> List.of("<player>");
+                case "invite", "kick" -> null;
                 case "option" -> List.of("color");
                 case "join" -> List.of("<nation>");
                 case "help" -> commands.filter(s -> s.startsWith(args[1])).toList();
-                default -> null;
+                default -> EMPTY;
             };
             case 3 -> switch (args[1]) {
-                // add some basic minecraft colors as well as a hex to indicate to the user that they can use hex
                 case "color" ->
-                        Stream.of("#66ff00", "white", "red", "blue", "green", "yellow", "purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple").filter(s -> s.startsWith(args[2])).toList();
-                default -> null;
+                        COLORS.stream().filter(s -> s.startsWith(args[2])).toList();
+                default -> EMPTY;
             };
-            default -> null;
+            default -> EMPTY;
         };
     }
 }
