@@ -6,16 +6,16 @@ import pro.cloudnode.smp.nations.util.Nation;
 
 public enum Messages {
     USAGE("usage", "<aqua>Usage: <white>/$0 $1 <gray>$2"),
-    NO_PERMISSION("no-permission", "<red>You do not have permission to use this command."),
+    NO_PERMISSION("no-permission", "<red>(!) You do not have permission to use this command."),
 
-    NATION_NOT_FOUND("nation-not-found", "<red>Nation <white>$0<red> not found."),
+    NATION_NOT_FOUND("nation-not-found", "<red>(!) Nation <white>$0<red> not found."),
 
-    NOT_INVITED_TO_NATION("not-invited-to-nation", "<red>You are not invited to <white><nation_name><red>"),
+    NOT_INVITED_TO_NATION("not-invited-to-nation", "<red>(!) You are not invited to <white><nation_name>"),
     JOINED_NATION("joined-nation", "<aqua>You have joined the nation <white><nation_name><aqua>"),
-    NOT_IN_NATION("not-in-nation", "<red>You are not in a nation."),
-    NOT_LEADER("not-leader", "<red>You are not the leader of your nation."),
+    NOT_IN_NATION("not-in-nation", "<red>(!) You are not in a nation."),
+    NOT_LEADER("not-leader", "<red>(!) You are not the leader of your nation."),
     COLOR_SET("color-set", "<aqua>You have set your nation color to <$0>$0<aqua>"),
-    INVALID_COLOR("invalid-color", "<red>Invalid color, must be a hex code or a color name."),
+    INVALID_COLOR("invalid-color", "<red>(!) Invalid color, must be a hex code or a color name."),
 
     INFO_HEADER("info-header", "<aqua>Info for <nation_color><nation_name><aqua>"),
     INFO_LEADER("info-leader", "<aqua>Leader: <white>$0"),
@@ -26,25 +26,25 @@ public enum Messages {
     //@todo: add hover information later
     LIST_ITEM("list-item", "<aqua><nation_name> <gray>(<nation_leader_name>)"),
 
-    NATION_DISBANDED("nation-disbanded", "<red>Your nation <gray>(<nation_name>)<red> has been disbanded."),
+    NATION_DISBANDED("nation-disbanded", "<red>(!) Your nation <gray>(<nation_name>)<red> has been disbanded."),
 
-    CANT_QUIT_AS_LEADER("cant-quit-as-leader", "<red>You cannot quit the nation because you are the leader. Use <gray>/nations kick <player><red> to kick all members."),
+    CANT_QUIT_AS_LEADER("cant-quit-as-leader", "<red>(!) You cannot quit the nation because you are the leader. Use <gray>/nations kick <player><red> to kick all members."),
 
     QUIT_NATION("quit-nation", "<aqua>You have quit the nation <white><nation_name><aqua>"),
 
     NO_NATIONS("no-nations", "<gray>There are no nations."),
-    YOU_HAVE_KICKED("you-have-kicked", "<red>You have kicked <white><player><aqua`> from your nation."),
-    YOU_HAVE_BEEN_KICKED("you-have-been-kicked", "<red>You have been kicked from <white><nation_name><red>"),
-    PLAYER_NOT_FOUND("player-not-found", "<red>Player <gray>$0<red> not found."),
-    PLAYER_NOT_IN_NATION("player-not-in-nation", "<red>Player <white><player><red> is not in your nation."),
-    INVALID_NAME("invalid-name", "<red>Invalid name, only alphanumeric characters are allowed."),
+    YOU_HAVE_KICKED("you-have-kicked", "<red>(!) You have kicked <white><player><aqua`> from your nation."),
+    YOU_HAVE_BEEN_KICKED("you-have-been-kicked", "<red>(!) You have been kicked from <white><nation_name>"),
+    PLAYER_NOT_FOUND("player-not-found", "<red>(!) Player <gray>$0<red> Not found."),
+    PLAYER_NOT_IN_NATION("player-not-in-nation", "<red>(!) Player <white><player><red> is not in your nation."),
+    INVALID_NAME("invalid-name", "<red>(!) Invalid name, only alphanumeric characters are allowed."),
     NEW_NATION("new-nation", "<aqua>You have created the nation <nation_color><nation_name><aqua>"),
-    ONLY_PLAYERS("only-players", "<red>Only players can use this command."),
+    ONLY_PLAYERS("only-players", "<red>(!) Only players can use this command."),
 
     COMMANDS_HEADER("commands-header", "<aqua>Commands:"),
     COMMANDS_ITEM("commands-item", "<white>- <aqua>/nations $0 $1 <gray>($2)"),
-    PLAYER_ALREADY_IN_NATION("player-already-in-nation", "<red>Player <white><player><red> is already in a nation."),
-    PLAYER_ALREADY_INVITED("player-already-invited", "<red>Player <white><player><red> is already invited to your nation."),
+    PLAYER_ALREADY_IN_NATION("player-already-in-nation", "<red>(!) Player <white><player><red> is already in a nation."),
+    PLAYER_ALREADY_INVITED("player-already-invited", "<red>(!) Player <white><player><red> is already invited to your nation."),
     INVITED_PLAYER("invited-player", "<aqua>You have invited <white><player><aqua> to your nation."),
     YOU_HAVE_BEEN_INVITED("you-have-been-invited", "<aqua>You have been invited to <white><nation_name><aqua>. Use <gray>/nations join <nation_name><aqua> to join."),
     CHAT_FORMAT_NATION("chat-format", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name> <dark_gray>» <white>$2"),

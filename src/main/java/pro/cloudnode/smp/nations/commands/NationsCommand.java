@@ -177,6 +177,7 @@ public class NationsCommand extends BaseCommand {
                 }
 
                 nation.color = color;
+                sendMessage(t(Messages.COLOR_SET, color));
 
                 break;
             default:
