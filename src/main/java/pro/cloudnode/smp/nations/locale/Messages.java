@@ -57,7 +57,9 @@ public enum Messages {
     RELOADED("reloaded", "<aqua>Nations has been reloaded."),
     ALREADY_IN_NATION("already-in-nation", "<red>(!) You are already in a nation."),
     NATION_DISPLAYNAME("nation-displayname", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name>"),
-    PLAYER_DISPLAYNAME("player-displayname", "<gray><player_name>");
+    PLAYER_DISPLAYNAME("player-displayname", "<gray><player_name>"),
+    PLAYER_JOIN_SERVER("player-join-server", "<gray>[<green>+<gray>] <gray>(<nation_color><nation_name><gray>) <nation_color><player_name>"),
+    PLAYER_LEAVE_SERVER("player-leave-server", "<gray>[<red>-<gray>] <gray>(<nation_color><nation_name><gray>) <nation_color><player_name>");
 
     public final String key;
 

@@ -5,7 +5,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 import pro.cloudnode.smp.nations.commands.NationsCommand;
 import pro.cloudnode.smp.nations.listeners.ChatMessageListener;
-import pro.cloudnode.smp.nations.listeners.PlayerJoinListener;
+import pro.cloudnode.smp.nations.listeners.PlayerConnectionListener;
 import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.NationManager;
 
@@ -58,7 +58,7 @@ public final class Nations extends JavaPlugin {
 
         // register chat listener
         getServer().getPluginManager().registerEvents(new ChatMessageListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), this);
 
     }
 
