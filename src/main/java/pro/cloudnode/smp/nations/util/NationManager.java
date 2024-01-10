@@ -119,8 +119,8 @@ public class NationManager {
     /**
      * Save nations to the config
      *
-     * @implNote This will overwrite the config
-     * @implNote This saves into `plugins/Nations/nations.yml`
+     * This will overwrite the config
+     * This saves into `plugins/Nations/nations.yml`
      */
     public void save() {
         // save nations

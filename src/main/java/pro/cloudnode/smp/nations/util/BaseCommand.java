@@ -54,7 +54,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
      * Get the sender a player
      *
      * @return The player
-     * @implNote You should check with {@link #isPlayer()} before using this method
+     * You should check with {@link #isPlayer()} before using this method
      */
     public Player getPlayer() {
         return (Player) sender;

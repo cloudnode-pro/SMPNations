@@ -73,8 +73,8 @@ public enum Messages {
     /**
      * Save messages to the config
      *
-     * @implNote This will *not* overwrite the config
-     * @implNote This saves into `plugins/Nations/messages.yml`
+     * This will *not* overwrite the config
+     * This saves into `plugins/Nations/messages.yml`
      */
     public static void save() {
         // check if messages.yml exists
@@ -98,7 +98,7 @@ public enum Messages {
     /**
      * Load messages from the config
      *
-     * @implNote This loads from `plugins/Nations/messages.yml`
+     * This loads from `plugins/Nations/messages.yml`
      */
     public static void load() {
         // add missing first
@@ -113,7 +113,7 @@ public enum Messages {
     /**
      * Adds the default messages to the config if they don't exist
      *
-     * @implNote This saves into `plugins/Nations/messages.yml`
+     * This saves into `plugins/Nations/messages.yml`
      */
     public static void addMissingDefaults() {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/Nations/messages.yml"));
