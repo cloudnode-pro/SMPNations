@@ -3,7 +3,6 @@ package pro.cloudnode.smp.nations.util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
-import pro.cloudnode.smp.nations.Nations;
 
 import java.util.ArrayList;
 import java.util.Arrays;

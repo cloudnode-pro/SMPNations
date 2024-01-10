@@ -4,16 +4,12 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.Nation;
 import pro.cloudnode.smp.nations.util.NationManager;
-
-import java.util.Set;
 
 import static pro.cloudnode.smp.nations.Nations.t;
 

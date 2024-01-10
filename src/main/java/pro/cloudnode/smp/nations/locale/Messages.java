@@ -68,44 +68,6 @@ public enum Messages {
         this.default_value = default_value;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public String getDefaultValue() {
-        return default_value;
-    }
-
-    /**
-     * Translate a message to a component and replace placeholders
-     *
-     * @param args the arguments to replace placeholders with
-     * @return the translated component
-     */
-    public String replacePlaceholders(Object... args) {
-        String message = this.getDefaultValue();
-        for (int i = 0; i < args.length; i++) {
-            Object arg = args[i];
-            if (arg instanceof Player player) {
-                message = message.replace("<player>", player.getName())
-                        .replace("<player_uuid>", player.getUniqueId().toString())
-                        .replace("<player_displayname>", player.displayName().toString())
-                        .replace("<player_name>", player.getName());
-            } else if (arg instanceof Nation nation) {
-                String leaderName = Bukkit.getOfflinePlayer(nation.leader).getName();
-                leaderName = leaderName == null ? "Unknown" : leaderName;
-                message = message.replace("<nation_name>", nation.name)
-                        .replace("<nation_leader>", nation.leader.toString())
-                        .replace("<nation_color>", "<" + nation.color + ">")
-                        .replace("<nation_uuid>", nation.uuid.toString())
-                        .replace("<nation_leader_name>", leaderName);
-            } else if (arg instanceof String str) {
-                message = message.replace("$" + i, str);
-            }
-        }
-        return message;
-    }
-
     /**
      * Save messages to the config
      *
@@ -166,5 +128,43 @@ public enum Messages {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDefaultValue() {
+        return default_value;
+    }
+
+    /**
+     * Translate a message to a component and replace placeholders
+     *
+     * @param args the arguments to replace placeholders with
+     * @return the translated component
+     */
+    public String replacePlaceholders(Object... args) {
+        String message = this.getDefaultValue();
+        for (int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+            if (arg instanceof Player player) {
+                message = message.replace("<player>", player.getName())
+                        .replace("<player_uuid>", player.getUniqueId().toString())
+                        .replace("<player_displayname>", player.displayName().toString())
+                        .replace("<player_name>", player.getName());
+            } else if (arg instanceof Nation nation) {
+                String leaderName = Bukkit.getOfflinePlayer(nation.leader).getName();
+                leaderName = leaderName == null ? "Unknown" : leaderName;
+                message = message.replace("<nation_name>", nation.name)
+                        .replace("<nation_leader>", nation.leader.toString())
+                        .replace("<nation_color>", "<" + nation.color + ">")
+                        .replace("<nation_uuid>", nation.uuid.toString())
+                        .replace("<nation_leader_name>", leaderName);
+            } else if (arg instanceof String str) {
+                message = message.replace("$" + i, str);
+            }
+        }
+        return message;
     }
 }

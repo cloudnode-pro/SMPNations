@@ -13,11 +13,61 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class NationManager {
-    private final Nations plugin;
     public static HashMap<UUID, Nation> nations = new HashMap<>();
+    private final Nations plugin;
 
     public NationManager(Nations plugin) {
         this.plugin = plugin;
+    }
+
+    /**
+     * Get the nation of a player
+     *
+     * @param uuid The UUID of the player
+     * @return The nation, or null if not found
+     */
+    public static Nation getPlayerNation(UUID uuid) {
+        for (Nation nation : nations.values()) {
+            if (nation.leader.equals(uuid)) {
+                return nation;
+            }
+            if (nation.members.contains(uuid)) {
+                return nation;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Check if a player is in a nation
+     *
+     * @param uuid The UUID of the player
+     * @return Whether the player is in a nation
+     */
+    public static boolean isInNation(UUID uuid) {
+        return getPlayerNation(uuid) != null;
+    }
+
+    /**
+     * Check if a player is in a nation
+     *
+     * @param player The player
+     * @return Whether the player is in a nation
+     */
+    public static boolean isInNation(Player player) {
+        return isInNation(player.getUniqueId());
+    }
+
+    public static void updatePlayersDisplayname(UUID uuid) {
+        Player player = Nations.getPlugin(Nations.class).getServer().getPlayer(uuid);
+        if (player == null) return;
+        if (isInNation(player)) {
+            Nation nation = getPlayerNation(player.getUniqueId());
+            player.displayName(Nations.t(Messages.NATION_DISPLAYNAME, nation, player));
+        } else {
+            player.displayName(Nations.t(Messages.PLAYER_DISPLAYNAME, player));
+        }
+        player.playerListName(player.displayName());
     }
 
     /**
@@ -49,24 +99,6 @@ public class NationManager {
      */
     public Nation get(UUID uuid) {
         return nations.get(uuid);
-    }
-
-    /**
-     * Get the nation of a player
-     *
-     * @param uuid The UUID of the player
-     * @return The nation, or null if not found
-     */
-    public static Nation getPlayerNation(UUID uuid) {
-        for (Nation nation : nations.values()) {
-            if (nation.leader.equals(uuid)) {
-                return nation;
-            }
-            if (nation.members.contains(uuid)) {
-                return nation;
-            }
-        }
-        return null;
     }
 
     /**
@@ -133,16 +165,8 @@ public class NationManager {
     }
 
     /**
-     * Check if a player is in a nation
-     * @param uuid The UUID of the player
-     * @return Whether the player is in a nation
-     */
-    public static boolean isInNation(UUID uuid) {
-        return getPlayerNation(uuid) != null;
-    }
-
-    /**
      * Check if a player is the leader of a nation
+     *
      * @param uuid The UUID of the player
      * @return Whether the player is the leader of a nation
      */
@@ -152,34 +176,14 @@ public class NationManager {
     }
 
     /**
-     * Check if a player is in a nation
-     * @param player The player
-     * @return Whether the player is in a nation
-     */
-    public static boolean isInNation(Player player) {
-        return isInNation(player.getUniqueId());
-    }
-
-    /**
      * Check if a player is the leader of a nation
+     *
      * @param player The player
      * @return Whether the player is the leader of a nation
      */
     public boolean isLeader(Player player) {
         if (!isInNation(player)) return false;
         return isLeader(player.getUniqueId());
-    }
-
-    public static void updatePlayersDisplayname(UUID uuid) {
-        Player player = Nations.getPlugin(Nations.class).getServer().getPlayer(uuid);
-        if (player == null) return;
-        if (isInNation(player)) {
-            Nation nation = getPlayerNation(player.getUniqueId());
-            player.displayName(Nations.t(Messages.NATION_DISPLAYNAME, nation, player));
-        } else {
-            player.displayName(Nations.t(Messages.PLAYER_DISPLAYNAME, player));
-        }
-        player.playerListName(player.displayName());
     }
 
 }

@@ -1,6 +1,5 @@
 package pro.cloudnode.smp.nations.commands;
 
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,12 +20,11 @@ import static pro.cloudnode.smp.nations.Nations.nationManager;
 import static pro.cloudnode.smp.nations.Nations.t;
 
 public class NationsCommand extends BaseCommand {
+    private final List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
+    private final List<String> EMPTY = new ArrayList<>();
     public NationsCommand(@NotNull Nations plugin) {
         super(plugin);
     }
-
-    private final List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
-    private final List<String> EMPTY = new ArrayList<>();
 
     public void execute(CommandSender sender, String label, String[] args) {
         if (!isPlayer()) {
@@ -67,9 +65,9 @@ public class NationsCommand extends BaseCommand {
             case "reload":
                 reload(sender, label, args);
                 break;
-                case "force-delete":
-                    forceDelete(sender, label, args);
-                    break;
+            case "force-delete":
+                forceDelete(sender, label, args);
+                break;
             case "help":
             default:
                 help(sender, label, args);
@@ -395,9 +393,11 @@ public class NationsCommand extends BaseCommand {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         Stream<String> commands = Stream.of("list", "help");
-        if (Nations.getNationManager().isInNation(player)) commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
+        if (Nations.getNationManager().isInNation(player))
+            commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
         else commands = Stream.concat(commands, Stream.of("join", "create"));
-        if (sender.hasPermission("nations.admin")) commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
+        if (sender.hasPermission("nations.admin"))
+            commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
         // sort alphabetically
         commands = commands.sorted();
         return switch (args.length) {
@@ -412,8 +412,7 @@ public class NationsCommand extends BaseCommand {
                 default -> EMPTY;
             };
             case 3 -> switch (args[1]) {
-                case "color" ->
-                        COLORS.stream().filter(s -> s.startsWith(args[2])).toList();
+                case "color" -> COLORS.stream().filter(s -> s.startsWith(args[2])).toList();
                 default -> EMPTY;
             };
             default -> EMPTY;
