@@ -86,7 +86,7 @@ public class Nation {
      */
     public void addMember(UUID uuid) {
         members.add(uuid);
-        NationManager.updatePlayersDisplayname(uuid);
+        update();
     }
 
     /**
@@ -96,7 +96,7 @@ public class Nation {
      */
     public void removeMember(UUID uuid) {
         members.remove(uuid);
-        NationManager.updatePlayersDisplayname(uuid);
+        update();
     }
 
     /**
@@ -119,4 +119,13 @@ public class Nation {
     }
 
 
+    public void update() {
+        // update leader
+        NationManager.updatePlayersDisplayname(leader);
+
+        // update members
+        for (UUID member : members) {
+            NationManager.updatePlayersDisplayname(member);
+        }
+    }
 }

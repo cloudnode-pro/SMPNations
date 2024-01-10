@@ -190,13 +190,13 @@ public class NationsCommand extends BaseCommand {
 
                 nation.color = color;
                 sendMessage(t(Messages.COLOR_SET, color));
+                nation.update();
 
                 break;
             default:
                 sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
                 break;
         }
-
     }
 
     private void info(CommandSender sender, String label, String[] args) {

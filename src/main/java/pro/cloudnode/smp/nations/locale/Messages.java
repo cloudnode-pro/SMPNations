@@ -137,6 +137,8 @@ public enum Messages {
      * @implNote This loads from `plugins/Nations/messages.yml`
      */
     public static void load() {
+        // add missing first
+        addMissingDefaults();
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/Nations/messages.yml"));
 
         for (Messages message : Messages.values()) {
