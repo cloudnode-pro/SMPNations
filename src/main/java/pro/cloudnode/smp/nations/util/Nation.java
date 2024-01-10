@@ -3,6 +3,7 @@ package pro.cloudnode.smp.nations.util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
+import pro.cloudnode.smp.nations.Nations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +86,7 @@ public class Nation {
      */
     public void addMember(UUID uuid) {
         members.add(uuid);
+        NationManager.updatePlayersDisplayname(uuid);
     }
 
     /**
@@ -94,12 +96,14 @@ public class Nation {
      */
     public void removeMember(UUID uuid) {
         members.remove(uuid);
+        NationManager.updatePlayersDisplayname(uuid);
     }
 
     /**
      * Add an invited player
      *
      * @param uuid The UUID of the player to add
+     * @implNote This adds a player to a 'invited list', and does not add them to a nation
      */
     public void addInvited(UUID uuid) {
         invited.add(uuid);

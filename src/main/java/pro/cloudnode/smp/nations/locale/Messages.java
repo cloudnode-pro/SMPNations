@@ -56,7 +56,7 @@ public enum Messages {
     NATION_DELETED("nation-deleted", "<aqua>You have deleted the nation <white><nation_name><aqua>"),
     RELOADED("reloaded", "<aqua>Nations has been reloaded."),
     ALREADY_IN_NATION("already-in-nation", "<red>(!) You are already in a nation."),
-    NATION_DISPLAYNAME("nation-displayname", "<nation_color><nation_name><player_name>"),
+    NATION_DISPLAYNAME("nation-displayname", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name>"),
     PLAYER_DISPLAYNAME("player-displayname", "<gray><player_name>");
 
     public final String key;

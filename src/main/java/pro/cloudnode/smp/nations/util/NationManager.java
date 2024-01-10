@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import pro.cloudnode.smp.nations.Nations;
+import pro.cloudnode.smp.nations.locale.Messages;
 
 import java.io.File;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 public class NationManager {
     private final Nations plugin;
-    public HashMap<UUID, Nation> nations = new HashMap<>();
+    public static HashMap<UUID, Nation> nations = new HashMap<>();
 
     public NationManager(Nations plugin) {
         this.plugin = plugin;
@@ -26,6 +27,7 @@ public class NationManager {
      */
     public void add(Nation nation) {
         nations.put(nation.uuid, nation);
+        updatePlayersDisplayname(nation.leader);
     }
 
     /**
@@ -34,7 +36,9 @@ public class NationManager {
      * @param nation The nation to remove
      */
     public void remove(Nation nation) {
+        UUID leader = nation.leader;
         nations.remove(nation.uuid);
+        updatePlayersDisplayname(leader);
     }
 
     /**
@@ -53,7 +57,7 @@ public class NationManager {
      * @param uuid The UUID of the player
      * @return The nation, or null if not found
      */
-    public Nation getPlayerNation(UUID uuid) {
+    public static Nation getPlayerNation(UUID uuid) {
         for (Nation nation : nations.values()) {
             if (nation.leader.equals(uuid)) {
                 return nation;
@@ -133,7 +137,7 @@ public class NationManager {
      * @param uuid The UUID of the player
      * @return Whether the player is in a nation
      */
-    public boolean isInNation(UUID uuid) {
+    public static boolean isInNation(UUID uuid) {
         return getPlayerNation(uuid) != null;
     }
 
@@ -144,7 +148,7 @@ public class NationManager {
      */
     public boolean isLeader(UUID uuid) {
         if (!isInNation(uuid)) return false;
-        return getPlayerNation(uuid).leader.equals(uuid);
+        return Objects.requireNonNull(getPlayerNation(uuid)).leader.equals(uuid);
     }
 
     /**
@@ -152,7 +156,7 @@ public class NationManager {
      * @param player The player
      * @return Whether the player is in a nation
      */
-    public boolean isInNation(Player player) {
+    public static boolean isInNation(Player player) {
         return isInNation(player.getUniqueId());
     }
 
@@ -164,6 +168,18 @@ public class NationManager {
     public boolean isLeader(Player player) {
         if (!isInNation(player)) return false;
         return isLeader(player.getUniqueId());
+    }
+
+    public static void updatePlayersDisplayname(UUID uuid) {
+        Player player = Nations.getPlugin(Nations.class).getServer().getPlayer(uuid);
+        if (player == null) return;
+        if (isInNation(player)) {
+            Nation nation = getPlayerNation(player.getUniqueId());
+            player.displayName(Nations.t(Messages.NATION_DISPLAYNAME, nation, player));
+        } else {
+            player.displayName(Nations.t(Messages.PLAYER_DISPLAYNAME, player));
+        }
+        player.playerListName(player.displayName());
     }
 
 }

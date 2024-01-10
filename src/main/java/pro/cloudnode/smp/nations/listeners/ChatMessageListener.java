@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.locale.Messages;
 import pro.cloudnode.smp.nations.util.Nation;
+import pro.cloudnode.smp.nations.util.NationManager;
 
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class ChatMessageListener implements Listener {
     @EventHandler
     public void onChatMessage(AsyncChatEvent event) {
         Player player = event.getPlayer();
-        Nation nation = Nations.getNationManager().getPlayerNation(player.getUniqueId());
+        Nation nation = NationManager.getPlayerNation(player.getUniqueId());
         Component message;
 
         if (nation == null) {
