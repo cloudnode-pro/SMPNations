@@ -393,8 +393,9 @@ public class NationsCommand extends BaseCommand {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        Player player = (Player) sender;
         Stream<String> commands = Stream.of("list", "help");
-        if (Nations.getNationManager().isInNation((Player) sender)) commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
+        if (Nations.getNationManager().isInNation(player)) commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
         else commands = Stream.concat(commands, Stream.of("join", "create"));
         if (sender.hasPermission("nations.admin")) commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
         // sort alphabetically
@@ -405,7 +406,8 @@ public class NationsCommand extends BaseCommand {
                 case "create" -> List.of("<name>");
                 case "invite", "kick" -> null;
                 case "option" -> List.of("color");
-                case "join" -> List.of("<nation>");
+                case "join" -> Nations.getNationManager().getNationsInviting(player.getUniqueId());
+                case "force-delete" -> Nations.getNationManager().getNations();
                 case "help" -> commands.filter(s -> s.startsWith(args[1])).toList();
                 default -> EMPTY;
             };

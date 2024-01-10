@@ -7,6 +7,7 @@ import pro.cloudnode.smp.nations.Nations;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -102,6 +103,14 @@ public class NationManager {
             this.plugin.getLogger().warning("Failed to save nations.yml");
             this.plugin.getLogger().warning(e.getMessage());
         }
+    }
+
+    public List<String> getNations() {
+        return nations.values().stream().map(nation -> nation.name).toList();
+    }
+
+    public List<String> getNationsInviting(UUID uuid) {
+        return nations.values().stream().filter(nation -> nation.invited.contains(uuid)).map(nation -> nation.name).toList();
     }
 
     /**
