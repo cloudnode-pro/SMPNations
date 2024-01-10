@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static pro.cloudnode.smp.nations.Nations.nationManager;
 import static pro.cloudnode.smp.nations.Nations.t;
 
 public class NationsCommand extends BaseCommand {
@@ -63,6 +64,12 @@ public class NationsCommand extends BaseCommand {
             case "join":
                 join(sender, label, args);
                 break;
+            case "reload":
+                reload(sender, label, args);
+                break;
+                case "force-delete":
+                    forceDelete(sender, label, args);
+                    break;
             case "help":
             default:
                 help(sender, label, args);
@@ -125,6 +132,11 @@ public class NationsCommand extends BaseCommand {
     private void join(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
             sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
+            return;
+        }
+
+        if (nationManager.isInNation((Player) sender)) {
+            sendMessage(t(Messages.ALREADY_IN_NATION));
             return;
         }
 
@@ -242,6 +254,42 @@ public class NationsCommand extends BaseCommand {
         }
     }
 
+    private void forceDelete(CommandSender sender, String label, String[] args) {
+        if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.forceDelete")) {
+            sendMessage(t(Messages.NO_PERMISSION));
+            return;
+        }
+
+        if (args.length <= 1) {
+            sendMessage(t(Messages.USAGE, label, "force-delete", "<nation>"));
+            return;
+        }
+
+        Nation nation = Nations.getNationManager().get(args[1]);
+        if (nation == null) {
+            sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
+            return;
+        }
+
+        Nations.getNationManager().remove(nation);
+        sendMessage(t(Messages.NATION_DELETED, nation));
+    }
+
+    private void reload(CommandSender sender, String label, String[] args) {
+        if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.reload")) {
+            sendMessage(t(Messages.NO_PERMISSION));
+            return;
+        }
+        if (args.length > 1) {
+            sendMessage(t(Messages.USAGE, label, "reload", ""));
+            return;
+        }
+
+        Nations.getPlugin(Nations.class).reloadConfig();
+        Messages.load();
+        sendMessage(t(Messages.RELOADED));
+    }
+
     private void kick(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
             sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
@@ -317,6 +365,11 @@ public class NationsCommand extends BaseCommand {
     public void newNation(CommandSender sender, String label, String[] args) {
         if (args.length <= 1) {
             sendMessage(t(Messages.USAGE, label, "create", "<name>"));
+            return;
+        }
+
+        if (nationManager.isInNation((Player) sender)) {
+            sendMessage(t(Messages.ALREADY_IN_NATION));
             return;
         }
 

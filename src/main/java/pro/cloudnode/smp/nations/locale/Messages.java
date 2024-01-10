@@ -1,8 +1,12 @@
 package pro.cloudnode.smp.nations.locale;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.util.Nation;
+
+import java.io.File;
 
 public enum Messages {
     USAGE("usage", "<aqua>Usage: <white>/$0 $1 <gray>$2"),
@@ -48,11 +52,14 @@ public enum Messages {
     INVITED_PLAYER("invited-player", "<aqua>You have invited <white><player><aqua> to your nation."),
     YOU_HAVE_BEEN_INVITED("you-have-been-invited", "<aqua>You have been invited to <white><nation_name><aqua>. Use <gray>/nations join <nation_name><aqua> to join."),
     CHAT_FORMAT_NATION("chat-format", "<gray>(<nation_color><nation_name><gray>) <nation_color><player_name> <dark_gray>» <white>$2"),
-    CHAT_FORMAT("chat-format", "<player_name> <dark_gray>» <white>$1");
+    CHAT_FORMAT("chat-format", "<player_name> <dark_gray>» <white>$1"),
+    NATION_DELETED("nation-deleted", "<aqua>You have deleted the nation <white><nation_name><aqua>"),
+    RELOADED("reloaded", "<aqua>Nations has been reloaded."),
+    ALREADY_IN_NATION("already-in-nation", "<red>(!) You are already in a nation.");
 
     public final String key;
 
-    public final String default_value;
+    public String default_value;
 
     Messages(String key, String default_value) {
         this.key = key;
@@ -95,5 +102,65 @@ public enum Messages {
             }
         }
         return message;
+    }
+
+    /**
+     * Save messages to the config
+     *
+     * @implNote This will *not* overwrite the config
+     * @implNote This saves into `plugins/Nations/messages.yml`
+     */
+    public static void save() {
+        // check if messages.yml exists
+        File messagesFile = new File("plugins/Nations/messages.yml");
+        if (messagesFile.exists()) return;
+
+        YamlConfiguration config = new YamlConfiguration();
+
+        for (Messages message : Messages.values()) {
+            config.set("messages." + message.getKey(), message.getDefaultValue());
+        }
+
+        try {
+            config.save(new File("plugins/Nations/messages.yml"));
+            Nations.getPlugin(Nations.class).getLogger().info("Saved default messages.yml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load messages from the config
+     *
+     * @implNote This loads from `plugins/Nations/messages.yml`
+     */
+    public static void load() {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/Nations/messages.yml"));
+
+        for (Messages message : Messages.values()) {
+            message.default_value = config.getString("messages." + message.getKey());
+        }
+    }
+
+    /**
+     * Adds the default messages to the config if they don't exist
+     *
+     * @implNote This saves into `plugins/Nations/messages.yml`
+     */
+    public static void addMissingDefaults() {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/Nations/messages.yml"));
+
+        for (Messages message : Messages.values()) {
+            if (!config.contains("messages." + message.getKey())) {
+                config.set("messages." + message.getKey(), message.getDefaultValue());
+            }
+        }
+
+        try {
+            config.save(new File("plugins/Nations/messages.yml"));
+            Nations.getPlugin(Nations.class).getLogger().info("Added missing messages to messages.yml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

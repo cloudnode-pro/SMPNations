@@ -42,6 +42,11 @@ public final class Nations extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // save  messages.yml if it doesn't exist
+        Messages.save();
+        Messages.addMissingDefaults();
+        Messages.load();
+
         // load nations
         nationManager = new NationManager(this);
         nationManager.load();
