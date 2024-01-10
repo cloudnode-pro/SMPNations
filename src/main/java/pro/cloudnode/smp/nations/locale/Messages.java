@@ -15,7 +15,7 @@ public enum Messages {
     NOT_IN_NATION("not-in-nation", "<red>(!) You are not in a nation."),
     NOT_LEADER("not-leader", "<red>(!) You are not the leader of your nation."),
     COLOR_SET("color-set", "<aqua>You have set your nation color to <$0>$0<aqua>"),
-    INVALID_COLOR("invalid-color", "<red>(!) Invalid color, must be a hex code or a color name."),
+    INVALID_COLOR("invalid-color", "<red>(!) Invalid color, must be a hex code <gray>(<white>#<red>RR<green>GG<blue>BB<gray>)<red> or a color name."),
 
     INFO_HEADER("info-header", "<aqua>Info for <nation_color><nation_name><aqua>"),
     INFO_LEADER("info-leader", "<aqua>Leader: <white>$0"),

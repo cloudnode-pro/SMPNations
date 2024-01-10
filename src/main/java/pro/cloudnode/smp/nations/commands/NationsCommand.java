@@ -170,7 +170,7 @@ public class NationsCommand extends BaseCommand {
                     return;
                 }
                 String color = args[2].toLowerCase();
-                boolean isHex = color.startsWith("#") && color.length() == 7 && color.matches("[0-9a-fA-F]+");
+                boolean isHex = color.startsWith("#") && color.length() == 7 && color.matches("#[0-9a-fA-F]+");
                 if (!COLORS.contains(color) && !isHex) {
                     sendMessage(t(Messages.INVALID_COLOR));
                     return;
@@ -340,8 +340,9 @@ public class NationsCommand extends BaseCommand {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Stream<String> commands = Stream.of("create", "list", "join", "help");
+        Stream<String> commands = Stream.of("list", "help");
         if (Nations.getNationManager().isInNation((Player) sender)) commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
+        else commands = Stream.concat(commands, Stream.of("join", "create"));
         if (sender.hasPermission("nations.admin")) commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
         // sort alphabetically
         commands = commands.sorted();
