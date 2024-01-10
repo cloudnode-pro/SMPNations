@@ -175,7 +175,7 @@ public class NationsCommand extends BaseCommand {
                     sendMessage(t(Messages.INVALID_COLOR));
                     return;
                 }
-                
+
                 nation.color = color;
 
                 break;
@@ -339,8 +339,11 @@ public class NationsCommand extends BaseCommand {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Stream<String> commands = Stream.of("create", "invite", "kick", "list", "quit", "info", "option", "join", "help");
+        Stream<String> commands = Stream.of("create", "list", "join", "help");
+        if (Nations.getNationManager().isInNation((Player) sender)) commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
         if (sender.hasPermission("nations.admin")) commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
+        // sort alphabetically
+        commands = commands.sorted();
         return switch (args.length) {
             case 1 -> commands.filter(s -> s.startsWith(args[0])).toList();
             case 2 -> switch (args[0]) {

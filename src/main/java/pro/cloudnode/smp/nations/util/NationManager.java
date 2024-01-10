@@ -2,6 +2,7 @@ package pro.cloudnode.smp.nations.util;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import pro.cloudnode.smp.nations.Nations;
 
 import java.io.File;
@@ -116,6 +117,44 @@ public class NationManager {
                 });
             }
         }
+    }
+
+    /**
+     * Check if a player is in a nation
+     * @param uuid The UUID of the player
+     * @return Whether the player is in a nation
+     */
+    public boolean isInNation(UUID uuid) {
+        return getPlayerNation(uuid) != null;
+    }
+
+    /**
+     * Check if a player is the leader of a nation
+     * @param uuid The UUID of the player
+     * @return Whether the player is the leader of a nation
+     */
+    public boolean isLeader(UUID uuid) {
+        if (!isInNation(uuid)) return false;
+        return getPlayerNation(uuid).leader.equals(uuid);
+    }
+
+    /**
+     * Check if a player is in a nation
+     * @param player The player
+     * @return Whether the player is in a nation
+     */
+    public boolean isInNation(Player player) {
+        return isInNation(player.getUniqueId());
+    }
+
+    /**
+     * Check if a player is the leader of a nation
+     * @param player The player
+     * @return Whether the player is the leader of a nation
+     */
+    public boolean isLeader(Player player) {
+        if (!isInNation(player)) return false;
+        return isLeader(player.getUniqueId());
     }
 
 }
