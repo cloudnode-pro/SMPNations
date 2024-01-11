@@ -27,8 +27,8 @@ public enum Messages {
     INFO_COLOR("info-color", "<aqua>Color: <white><color>"),
 
     LIST_HEADER("list-header", "<aqua>Nations:"),
-    //@todo: add hover information later
-    LIST_ITEM("list-item", "<aqua><nation_name> <gray>(<nation_leader_name>)"),
+
+    LIST_ITEM("list-item", "<gray>– <reset><hover:show_text:'<nation_color><bold><nation_name><reset><newline><aqua>Leader: <white><nation_leader_name><newline><aqua>Members: <white><nation_members>'><nation_color><nation_name><reset>"),
 
     NATION_DISBANDED("nation-disbanded", "<red>(!) Your nation <gray>(<nation_name>)<red> has been disbanded."),
 
@@ -162,7 +162,8 @@ public enum Messages {
                         .replace("<nation_leader>", nation.leader.toString())
                         .replace("<nation_color>", "<" + nation.color + ">")
                         .replace("<nation_uuid>", nation.uuid.toString())
-                        .replace("<nation_leader_name>", leaderName);
+                        .replace("<nation_leader_name>", leaderName)
+                        .replace("<nation_members>", nation.members.size() + 1 + "");
             } else if (arg instanceof String str) {
                 message = message.replace("$" + i, str);
             }
