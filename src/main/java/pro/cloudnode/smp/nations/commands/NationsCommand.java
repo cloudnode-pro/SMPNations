@@ -225,7 +225,7 @@ public class NationsCommand extends BaseCommand {
     }
 
     private boolean forceDelete(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.forceDelete")) {
+        if (!sender.hasPermission("nations.admin") && !sender.hasPermission("nations.forceDelete")) {
             return sendMessage(t(Messages.NO_PERMISSION));
         }
 
@@ -243,7 +243,7 @@ public class NationsCommand extends BaseCommand {
     }
 
     private boolean reload(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.reload")) {
+        if (!sender.hasPermission("nations.admin") && !sender.hasPermission("nations.reload")) {
             return sendMessage(t(Messages.NO_PERMISSION));
         }
         if (args.length > 1) {
