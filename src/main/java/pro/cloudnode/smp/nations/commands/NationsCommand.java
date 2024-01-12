@@ -130,36 +130,16 @@ public class NationsCommand extends BaseCommand {
         }
 
         switch (args[1]) {
-            case "create":
-                sendMessage(t(Messages.USAGE, label, "create", "<name>"));
-                break;
-            case "invite":
-                sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
-                break;
-            case "kick":
-                sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
-                break;
-            case "list":
-                sendMessage(t(Messages.USAGE, label, "list", ""));
-                break;
-            case "quit":
-                sendMessage(t(Messages.USAGE, label, "quit", ""));
-                break;
-            case "info":
-                sendMessage(t(Messages.USAGE, label, "info", ""));
-                break;
-            case "option":
-                sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
-                break;
-            case "join":
-                sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
-                break;
-            case "cancel-invite":
-                sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
-                break;
-            default:
-                help(sender, label, new String[0]);
-                break;
+            case "create" -> sendMessage(t(Messages.USAGE, label, "create", "<name>"));
+            case "invite" -> sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
+            case "kick" -> sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
+            case "list" -> sendMessage(t(Messages.USAGE, label, "list", ""));
+            case "quit" -> sendMessage(t(Messages.USAGE, label, "quit", ""));
+            case "info" -> sendMessage(t(Messages.USAGE, label, "info", ""));
+            case "option" -> sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
+            case "join" -> sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
+            case "cancel-invite" -> sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
+            default -> help(sender, label, new String[0]);
         }
     }
 
