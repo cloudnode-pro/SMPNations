@@ -102,7 +102,7 @@ public class Nation {
      * Add an invited player
      *
      * @param uuid The UUID of the player to add
-     * This adds a player to a 'invited list', and does not add them to a nation
+     *             This adds a player to a 'invited list', and does not add them to a nation
      */
     public void addInvited(@NotNull UUID uuid) {
         invited.add(uuid);

@@ -73,7 +73,7 @@ public enum Messages {
 
     /**
      * Save messages to the config
-     *
+     * <p>
      * This will *not* overwrite the config
      * This saves into `plugins/Nations/messages.yml`
      */

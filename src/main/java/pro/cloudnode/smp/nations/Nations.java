@@ -42,6 +42,13 @@ public final class Nations extends JavaPlugin {
         return message.replacePlaceholders(args);
     }
 
+    /**
+     * Get the plugin instance
+     */
+    public static @NotNull Nations getPlugin() {
+        return Nations.getPlugin(Nations.class);
+    }
+
     @Override
     public void onEnable() {
         // save  messages.yml if it doesn't exist
@@ -60,13 +67,6 @@ public final class Nations extends JavaPlugin {
         // register chat listener
         getServer().getPluginManager().registerEvents(new ChatMessageListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), this);
-    }
-
-    /**
-     * Get the plugin instance
-     */
-    public static @NotNull Nations getPlugin() {
-        return Nations.getPlugin(Nations.class);
     }
 
     @Override

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static pro.cloudnode.smp.nations.Nations.nationManager;
 import static pro.cloudnode.smp.nations.Nations.t;
 
 public class NationsCommand extends BaseCommand {
@@ -241,11 +240,11 @@ public class NationsCommand extends BaseCommand {
 
     private void list(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         sendMessage(t(Messages.LIST_HEADER));
-        if (Nations.getNationManager().nations.isEmpty()) {
+        if (NationManager.nations.isEmpty()) {
             sendMessage(t(Messages.NO_NATIONS));
             return;
         }
-        for (Nation nation : Nations.getNationManager().nations.values()) {
+        for (Nation nation : NationManager.nations.values()) {
             sendMessage(t(Messages.LIST_ITEM, nation));
         }
     }
