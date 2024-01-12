@@ -3,6 +3,7 @@ package pro.cloudnode.smp.nations.locale;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.util.Nation;
 
@@ -97,7 +98,7 @@ public enum Messages {
 
     /**
      * Load messages from the config
-     *
+     * <br>
      * This loads from `plugins/Nations/messages.yml`
      */
     public static void load() {
@@ -112,7 +113,7 @@ public enum Messages {
 
     /**
      * Adds the default messages to the config if they don't exist
-     *
+     * <br>
      * This saves into `plugins/Nations/messages.yml`
      */
     public static void addMissingDefaults() {
@@ -132,11 +133,11 @@ public enum Messages {
         }
     }
 
-    public String getKey() {
+    public @NotNull String getKey() {
         return key;
     }
 
-    public String getDefaultValue() {
+    public @NotNull String getDefaultValue() {
         return default_value;
     }
 
@@ -146,7 +147,7 @@ public enum Messages {
      * @param args the arguments to replace placeholders with
      * @return the translated component
      */
-    public String replacePlaceholders(Object... args) {
+    public @NotNull String replacePlaceholders(@NotNull Object... args) {
         String message = this.getDefaultValue();
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];

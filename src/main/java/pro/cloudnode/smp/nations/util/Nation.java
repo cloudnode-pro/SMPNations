@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Nation {
-    public @NotNull UUID uuid;
+    public final @NotNull UUID uuid;
     public @NotNull String name;
     public @NotNull UUID leader;
     public @NotNull ArrayList<UUID> members;
@@ -35,7 +35,7 @@ public class Nation {
         this.color = "white";
     }
 
-    public Nation(String key, FileConfiguration config) {
+    public Nation(@NotNull String key, @NotNull FileConfiguration config) {
         this.uuid = UUID.fromString(key);
         this.load((YamlConfiguration) config);
     }
@@ -45,7 +45,7 @@ public class Nation {
      *
      * @param config The config to save to
      */
-    public void save(YamlConfiguration config) {
+    public void save(@NotNull YamlConfiguration config) {
         config.set("nations." + uuid + ".name", name);
         config.set("nations." + uuid + ".leader", leader.toString());
         config.set("nations." + uuid + ".members", Arrays.stream(members.toArray()).map(Object::toString).toArray());
@@ -58,7 +58,7 @@ public class Nation {
      *
      * @param config The config to load from
      */
-    public void load(YamlConfiguration config) {
+    public void load(@NotNull YamlConfiguration config) {
         this.name = Objects.requireNonNull(config.getString("nations." + uuid + ".name"));
         this.leader = UUID.fromString(Objects.requireNonNull(config.getString("nations." + uuid + ".leader")));
         this.members = new ArrayList<>();
@@ -83,7 +83,7 @@ public class Nation {
      *
      * @param uuid The UUID of the player to add
      */
-    public void addMember(UUID uuid) {
+    public void addMember(@NotNull UUID uuid) {
         members.add(uuid);
         update();
     }
@@ -93,7 +93,7 @@ public class Nation {
      *
      * @param uuid The UUID of the player to remove
      */
-    public void removeMember(UUID uuid) {
+    public void removeMember(@NotNull UUID uuid) {
         members.remove(uuid);
         update();
     }
@@ -104,7 +104,7 @@ public class Nation {
      * @param uuid The UUID of the player to add
      * This adds a player to a 'invited list', and does not add them to a nation
      */
-    public void addInvited(UUID uuid) {
+    public void addInvited(@NotNull UUID uuid) {
         invited.add(uuid);
     }
 
@@ -113,18 +113,18 @@ public class Nation {
      *
      * @param uuid The UUID of the player to remove
      */
-    public void removeInvited(UUID uuid) {
+    public void removeInvited(@NotNull UUID uuid) {
         invited.remove(uuid);
     }
 
 
     public void update() {
         // update leader
-        NationManager.updatePlayersDisplayname(leader);
+        NationManager.updatePlayersName(leader);
 
         // update members
         for (UUID member : members) {
-            NationManager.updatePlayersDisplayname(member);
+            NationManager.updatePlayersName(member);
         }
     }
 }

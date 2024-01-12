@@ -3,6 +3,7 @@ package pro.cloudnode.smp.nations;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import pro.cloudnode.smp.nations.commands.NationsCommand;
 import pro.cloudnode.smp.nations.listeners.ChatMessageListener;
 import pro.cloudnode.smp.nations.listeners.PlayerConnectionListener;
@@ -15,7 +16,7 @@ public final class Nations extends JavaPlugin {
 
     public static NationManager nationManager;
 
-    public static NationManager getNationManager() {
+    public static @NotNull NationManager getNationManager() {
         return nationManager;
     }
 
@@ -26,7 +27,7 @@ public final class Nations extends JavaPlugin {
      * @param args    the arguments to replace placeholders with
      * @return the translated component
      */
-    public static Component t(Messages message, Object... args) {
+    public static @NotNull Component t(@NotNull Messages message, @NotNull Object... args) {
         return MiniMessage.miniMessage().deserialize(message.replacePlaceholders(args));
     }
 
@@ -37,7 +38,7 @@ public final class Nations extends JavaPlugin {
      * @param args    the arguments to replace placeholders with
      * @return the translated string
      */
-    public static String ts(Messages message, Object... args) {
+    public static @NotNull String ts(@NotNull Messages message, @NotNull Object... args) {
         return message.replacePlaceholders(args);
     }
 
@@ -59,7 +60,13 @@ public final class Nations extends JavaPlugin {
         // register chat listener
         getServer().getPluginManager().registerEvents(new ChatMessageListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerConnectionListener(), this);
+    }
 
+    /**
+     * Get the plugin instance
+     */
+    public static @NotNull Nations getPlugin() {
+        return Nations.getPlugin(Nations.class);
     }
 
     @Override

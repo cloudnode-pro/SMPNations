@@ -3,6 +3,8 @@ package pro.cloudnode.smp.nations.util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pro.cloudnode.smp.nations.Nations;
 import pro.cloudnode.smp.nations.locale.Messages;
 
@@ -13,10 +15,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class NationManager {
-    public static HashMap<UUID, Nation> nations = new HashMap<>();
-    private final Nations plugin;
+    public static @NotNull HashMap<UUID, Nation> nations = new HashMap<>();
+    private final @NotNull Nations plugin;
 
-    public NationManager(Nations plugin) {
+    public NationManager(@NotNull Nations plugin) {
         this.plugin = plugin;
     }
 
@@ -26,7 +28,7 @@ public class NationManager {
      * @param uuid The UUID of the player
      * @return The nation, or null if not found
      */
-    public static Nation getPlayerNation(UUID uuid) {
+    public static @Nullable Nation getPlayerNation(@NotNull UUID uuid) {
         for (Nation nation : nations.values()) {
             if (nation.leader.equals(uuid)) {
                 return nation;
@@ -44,7 +46,7 @@ public class NationManager {
      * @param uuid The UUID of the player
      * @return Whether the player is in a nation
      */
-    public static boolean isInNation(UUID uuid) {
+    public static boolean isInNation(@NotNull UUID uuid) {
         return getPlayerNation(uuid) != null;
     }
 
@@ -54,11 +56,11 @@ public class NationManager {
      * @param player The player
      * @return Whether the player is in a nation
      */
-    public static boolean isInNation(Player player) {
+    public static boolean isInNation(@NotNull Player player) {
         return isInNation(player.getUniqueId());
     }
 
-    public static void updatePlayersDisplayname(UUID uuid) {
+    public static void updatePlayersName(@NotNull UUID uuid) {
         Player player = Nations.getPlugin(Nations.class).getServer().getPlayer(uuid);
         if (player == null) return;
         if (isInNation(player)) {
@@ -77,7 +79,7 @@ public class NationManager {
      */
     public void add(Nation nation) {
         nations.put(nation.uuid, nation);
-        updatePlayersDisplayname(nation.leader);
+        updatePlayersName(nation.leader);
     }
 
     /**
@@ -88,7 +90,7 @@ public class NationManager {
     public void remove(Nation nation) {
         UUID leader = nation.leader;
         nations.remove(nation.uuid);
-        updatePlayersDisplayname(leader);
+        updatePlayersName(leader);
     }
 
     /**

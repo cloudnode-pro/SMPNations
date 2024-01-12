@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BaseCommand implements CommandExecutor, TabCompleter {
     private final @NotNull Nations plugin;
-    private CommandSender sender;
+    private @Nullable CommandSender sender;
 
     public BaseCommand(@NotNull Nations plugin) {
         this.plugin = plugin;

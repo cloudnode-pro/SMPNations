@@ -16,7 +16,7 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        NationManager.updatePlayersDisplayname(player.getUniqueId());
+        NationManager.updatePlayersName(player.getUniqueId());
 
         Nation n = NationManager.getPlayerNation(player.getUniqueId());
         // set join message
