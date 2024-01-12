@@ -104,16 +104,6 @@ public class NationManager {
     }
 
     /**
-     * Get a nation by UUID
-     *
-     * @param uuid The UUID of the nation
-     * @return The nation, or null if not found
-     */
-    public Nation get(UUID uuid) {
-        return nations.get(uuid);
-    }
-
-    /**
      * Get a nation by name
      *
      * @param name The name of the nation
@@ -138,9 +128,7 @@ public class NationManager {
         // save nations
         YamlConfiguration config = new YamlConfiguration();
         if (!nations.isEmpty()) {
-            nations.forEach((uuid, nation) -> {
-                nation.save(config);
-            });
+            nations.forEach((uuid, nation) -> nation.save(config));
         }
 
         // write to plugins/Nations/nations.yml
@@ -169,33 +157,9 @@ public class NationManager {
         if (file.exists()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
             if (config.getConfigurationSection("nations") != null) {
-                Objects.requireNonNull(config.getConfigurationSection("nations")).getKeys(false).forEach(key -> {
-                    add(new Nation(key, config));
-                });
+                Objects.requireNonNull(config.getConfigurationSection("nations")).getKeys(false).forEach(key -> add(new Nation(key, config)));
             }
         }
-    }
-
-    /**
-     * Check if a player is the leader of a nation
-     *
-     * @param uuid The UUID of the player
-     * @return Whether the player is the leader of a nation
-     */
-    public boolean isLeader(UUID uuid) {
-        if (!isInNation(uuid)) return false;
-        return Objects.requireNonNull(getPlayerNation(uuid)).leader.equals(uuid);
-    }
-
-    /**
-     * Check if a player is the leader of a nation
-     *
-     * @param player The player
-     * @return Whether the player is the leader of a nation
-     */
-    public boolean isLeader(Player player) {
-        if (!isInNation(player)) return false;
-        return isLeader(player.getUniqueId());
     }
 
 }

@@ -17,15 +17,6 @@ public class Nation {
     public @NotNull ArrayList<UUID> invited;
     public @NotNull String color;
 
-    public Nation(@NotNull UUID uuid, @NotNull String name, @NotNull UUID leader, @NotNull ArrayList<UUID> members, @NotNull ArrayList<UUID> invited, @NotNull String color) {
-        this.uuid = uuid;
-        this.name = name;
-        this.leader = leader;
-        this.members = members;
-        this.invited = invited;
-        this.color = color;
-    }
-
     public Nation(@NotNull String name, @NotNull UUID leader) {
         this.uuid = UUID.randomUUID();
         this.name = name;

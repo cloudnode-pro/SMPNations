@@ -21,8 +21,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         this.sender = sender;
-        execute(sender, label, args);
-        return true;
+        return execute(sender, label, args);
     }
 
     /**
