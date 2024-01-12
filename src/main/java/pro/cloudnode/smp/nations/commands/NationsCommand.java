@@ -23,10 +23,6 @@ public class NationsCommand extends BaseCommand {
     private final @NotNull List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
     private final @NotNull List<String> EMPTY = new ArrayList<>();
 
-    public NationsCommand(@NotNull Nations plugin) {
-        super(plugin);
-    }
-
     public void execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (!isPlayer()) {
             sendMessage(t(Messages.ONLY_PLAYERS));
@@ -200,14 +196,14 @@ public class NationsCommand extends BaseCommand {
             return;
         }
 
-        Nation nation = Nations.getNationManager().getPlayerNation(getPlayer().getUniqueId());
+        Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
             sendMessage(t(Messages.NOT_IN_NATION));
             return;
         }
 
         sendMessage(t(Messages.INFO_HEADER, nation));
-        sendMessage(t(Messages.INFO_LEADER, Bukkit.getPlayer(nation.leader).getName()));
+        sendMessage(t(Messages.INFO_LEADER, Objects.requireNonNull(Bukkit.getPlayer(nation.leader)).getName()));
         sendMessage(t(Messages.INFO_MEMBERS, nation.members.stream().map(Bukkit::getPlayer).filter(Objects::nonNull).map(Player::getName).toList().toString()));
     }
 

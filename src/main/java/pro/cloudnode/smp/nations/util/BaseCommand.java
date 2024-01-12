@@ -1,7 +1,6 @@
 package pro.cloudnode.smp.nations.util;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,28 +8,13 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pro.cloudnode.smp.nations.Nations;
 
 import java.util.List;
 
 public class BaseCommand implements CommandExecutor, TabCompleter {
-    private final @NotNull Nations plugin;
     private @Nullable CommandSender sender;
 
-    public BaseCommand(@NotNull Nations plugin) {
-        this.plugin = plugin;
-    }
-
-    /**
-     * Get the plugin instance
-     *
-     * @return The plugin instance
-     */
-    public @NotNull Nations getPlugin() {
-        return plugin;
-    }
-
-    public void execute(CommandSender sender, String label, String[] args) {
+    public void execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -61,31 +45,14 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
     }
 
     /**
-     * Get the command sender
-     *
-     * @return The command sender
-     */
-
-    public CommandSender getSender() {
-        return sender;
-    }
-
-    /**
      * Send a message to the sender
      *
      * @param message The message to send
      */
-    public void sendMessage(String message) {
-        this.sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
-    }
-
-    /**
-     * Send a message to the sender
-     *
-     * @param message The message to send
-     */
-    public void sendMessage(Component message) {
-        this.sender.sendMessage(message);
+    public void sendMessage(@NotNull Component message) {
+        if (this.sender != null) {
+            this.sender.sendMessage(message);
+        }
     }
 
     /**
@@ -94,17 +61,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
      * @param player  The player to send the message to
      * @param message The message to send
      */
-    public void sendMessage(Player player, String message) {
-        player.sendMessage(MiniMessage.miniMessage().deserialize(message));
-    }
-
-    /**
-     * Send a message to a player
-     *
-     * @param player  The player to send the message to
-     * @param message The message to send
-     */
-    public void sendMessage(Player player, Component message) {
+    public void sendMessage(@NotNull Player player, @NotNull Component message) {
         player.sendMessage(message);
     }
 
