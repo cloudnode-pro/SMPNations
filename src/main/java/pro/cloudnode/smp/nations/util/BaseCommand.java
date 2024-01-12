@@ -14,7 +14,7 @@ import java.util.List;
 public class BaseCommand implements CommandExecutor, TabCompleter {
     private @Nullable CommandSender sender;
 
-    public void execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -49,10 +49,11 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
      *
      * @param message The message to send
      */
-    public void sendMessage(@NotNull Component message) {
+    public boolean sendMessage(@NotNull Component message) {
         if (this.sender != null) {
             this.sender.sendMessage(message);
         }
+        return true;
     }
 
     /**
@@ -61,8 +62,9 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
      * @param player  The player to send the message to
      * @param message The message to send
      */
-    public void sendMessage(@NotNull Player player, @NotNull Component message) {
+    public boolean sendMessage(@NotNull Player player, @NotNull Component message) {
         player.sendMessage(message);
+        return true;
     }
 
     @Override

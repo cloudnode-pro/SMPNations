@@ -23,18 +23,17 @@ public class NationsCommand extends BaseCommand {
     private final @NotNull List<String> COLORS = List.of("white", "red", "blue", "green", "yellow", "light_purple", "aqua", "pink", "gray", "dark_gray", "dark_red", "dark_blue", "dark_green", "dark_aqua", "dark_purple");
     private final @NotNull List<String> EMPTY = new ArrayList<>();
 
-    public void execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (!isPlayer()) {
-            sendMessage(t(Messages.ONLY_PLAYERS));
-            return;
+            return sendMessage(t(Messages.ONLY_PLAYERS));
         }
 
         if (args.length == 0) {
             help(sender, label, args);
-            return;
+            return false;
         }
 
-        switch (args[0]) {
+        return switch (args[0]) {
             case "create" -> newNation(sender, label, args);
             case "invite" -> invite(sender, label, args);
             case "kick" -> kick(sender, label, args);
@@ -47,43 +46,38 @@ public class NationsCommand extends BaseCommand {
             case "force-delete" -> forceDelete(sender, label, args);
             case "cancel-invite" -> cancelInvite(sender, label, args);
             default -> help(sender, label, args);
-        }
+        };
     }
 
-    private void cancelInvite(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean cancelInvite(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.NOT_LEADER));
-            return;
+            return sendMessage(t(Messages.NOT_LEADER));
         }
 
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
-            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
-            return;
+            return sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
         }
 
         if (!nation.invited.contains(player.getUniqueId())) {
-            sendMessage(t(Messages.PLAYER_NOT_INVITED, player));
-            return;
+            return sendMessage(t(Messages.PLAYER_NOT_INVITED, player));
         }
 
         nation.removeInvited(player.getUniqueId());
-        sendMessage(t(Messages.CANCELED_INVITE, player));
+        return sendMessage(t(Messages.CANCELED_INVITE, player));
     }
 
     // help for each command
-    private void help(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean help(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
             // list of commands
             sendMessage(t(Messages.COMMANDS_HEADER));
@@ -101,7 +95,6 @@ public class NationsCommand extends BaseCommand {
                 sendMessage(t(Messages.COMMANDS_ITEM, "force-delete", "<nation>", "force delete a nation"));
                 sendMessage(t(Messages.COMMANDS_ITEM, "reload", "", "reload the plugin"));
             }
-            return;
         }
 
         switch (args[1]) {
@@ -116,64 +109,57 @@ public class NationsCommand extends BaseCommand {
             case "cancel-invite" -> sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
             default -> help(sender, label, new String[0]);
         }
+
+        return true;
     }
 
-    private void join(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean join(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
         }
 
         if (NationManager.isInNation((Player) sender)) {
-            sendMessage(t(Messages.ALREADY_IN_NATION));
-            return;
+            return sendMessage(t(Messages.ALREADY_IN_NATION));
         }
 
         Nation nation = Nations.getNationManager().get(args[1]);
         if (nation == null) {
-            sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
-            return;
+            return sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
         }
 
         if (!nation.invited.contains(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.NOT_INVITED_TO_NATION, nation));
-            return;
+            return sendMessage(t(Messages.NOT_INVITED_TO_NATION, nation));
         }
 
         nation.addMember(getPlayer().getUniqueId());
         nation.removeInvited(getPlayer().getUniqueId());
-        sendMessage(t(Messages.JOINED_NATION, nation));
+        return sendMessage(t(Messages.JOINED_NATION, nation));
     }
 
-    private void option(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean option(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.NOT_LEADER));
-            return;
+            return sendMessage(t(Messages.NOT_LEADER));
         }
 
         String key = args[1];
 
         if (key.equals("color")) {
             if (args.length == 2) {
-                sendMessage(t(Messages.USAGE, label, "option", "color <color>"));
-                return;
+                return sendMessage(t(Messages.USAGE, label, "option", "color <color>"));
             }
             String color = args[2].toLowerCase();
             boolean isHex = color.matches("^#[0-9a-f]{6}$");
             if (!COLORS.contains(color) && !isHex) {
-                sendMessage(t(Messages.INVALID_COLOR));
-                return;
+                return sendMessage(t(Messages.INVALID_COLOR));
             }
 
             nation.color = color;
@@ -182,188 +168,168 @@ public class NationsCommand extends BaseCommand {
         } else {
             sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
         }
+
+        return true;
     }
 
-    private void info(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean info(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length > 1) {
-            sendMessage(t(Messages.USAGE, label, "info", ""));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "info", ""));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         sendMessage(t(Messages.INFO_HEADER, nation));
         sendMessage(t(Messages.INFO_LEADER, Objects.requireNonNull(Bukkit.getPlayer(nation.leader)).getName()));
-        sendMessage(t(Messages.INFO_MEMBERS, nation.members.stream().map(Bukkit::getPlayer).filter(Objects::nonNull).map(Player::getName).toList().toString()));
+        return sendMessage(t(Messages.INFO_MEMBERS, nation.members.stream().map(Bukkit::getPlayer).filter(Objects::nonNull).map(Player::getName).toList().toString()));
     }
 
-    private void quit(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean quit(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length > 1) {
-            sendMessage(t(Messages.USAGE, label, "quit", ""));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "quit", ""));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         if (nation.members.isEmpty() && nation.leader.equals(getPlayer().getUniqueId())) {
             sendMessage(t(Messages.NATION_DISBANDED, nation));
             Nations.getNationManager().remove(nation);
-            return;
+            return true;
         }
 
         if (nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.CANT_QUIT_AS_LEADER));
-            return;
+            return sendMessage(t(Messages.CANT_QUIT_AS_LEADER));
         }
 
         sendMessage(t(Messages.QUIT_NATION, nation));
         nation.removeMember(getPlayer().getUniqueId());
+
+        return true;
     }
 
-    private void list(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean list(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         sendMessage(t(Messages.LIST_HEADER));
         if (NationManager.nations.isEmpty()) {
-            sendMessage(t(Messages.NO_NATIONS));
-            return;
+            return sendMessage(t(Messages.NO_NATIONS));
         }
         for (Nation nation : NationManager.nations.values()) {
             sendMessage(t(Messages.LIST_ITEM, nation));
         }
+        return true;
     }
 
-    private void forceDelete(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean forceDelete(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.forceDelete")) {
-            sendMessage(t(Messages.NO_PERMISSION));
-            return;
+            return sendMessage(t(Messages.NO_PERMISSION));
         }
 
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "force-delete", "<nation>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "force-delete", "<nation>"));
         }
 
         Nation nation = Nations.getNationManager().get(args[1]);
         if (nation == null) {
-            sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
-            return;
+            return sendMessage(t(Messages.NATION_NOT_FOUND, args[1]));
         }
 
         Nations.getNationManager().remove(nation);
-        sendMessage(t(Messages.NATION_DELETED, nation));
+        return sendMessage(t(Messages.NATION_DELETED, nation));
     }
 
-    private void reload(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean reload(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("nations.admin") && !sender.isOp() && !sender.hasPermission("nations.reload")) {
-            sendMessage(t(Messages.NO_PERMISSION));
-            return;
+            return sendMessage(t(Messages.NO_PERMISSION));
         }
         if (args.length > 1) {
-            sendMessage(t(Messages.USAGE, label, "reload", ""));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "reload", ""));
         }
 
         Nations.getPlugin(Nations.class).reloadConfig();
         Messages.load();
-        sendMessage(t(Messages.RELOADED));
+        return sendMessage(t(Messages.RELOADED));
     }
 
-    private void kick(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean kick(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.NOT_LEADER));
-            return;
+            return sendMessage(t(Messages.NOT_LEADER));
         }
 
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
-            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
-            return;
+            return sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
         }
 
         if (!nation.members.contains(player.getUniqueId())) {
-            sendMessage(t(Messages.PLAYER_NOT_IN_NATION, player));
-            return;
+            return sendMessage(t(Messages.PLAYER_NOT_IN_NATION, player));
         }
 
         nation.removeMember(player.getUniqueId());
         sendMessage(t(Messages.YOU_HAVE_KICKED, player));
-        sendMessage(player, t(Messages.YOU_HAVE_BEEN_KICKED, nation));
+        return sendMessage(player, t(Messages.YOU_HAVE_BEEN_KICKED, nation));
     }
 
-    private void invite(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    private boolean invite(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
         }
 
         Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
         if (nation == null) {
-            sendMessage(t(Messages.NOT_IN_NATION));
-            return;
+            return sendMessage(t(Messages.NOT_IN_NATION));
         }
 
         if (!nation.leader.equals(getPlayer().getUniqueId())) {
-            sendMessage(t(Messages.NOT_LEADER));
-            return;
+            return sendMessage(t(Messages.NOT_LEADER));
         }
 
         Player player = Bukkit.getPlayer(args[1]);
         if (player == null) {
-            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
-            return;
+            return sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
         }
         Nation inviteeNation = NationManager.getPlayerNation(player.getUniqueId());
 
         if (inviteeNation != null) {
-            sendMessage(t(Messages.PLAYER_ALREADY_IN_NATION, player));
-            return;
+            return sendMessage(t(Messages.PLAYER_ALREADY_IN_NATION, player));
         }
 
         if (nation.invited.contains(player.getUniqueId())) {
-            sendMessage(t(Messages.PLAYER_ALREADY_INVITED, player));
-            return;
+            return sendMessage(t(Messages.PLAYER_ALREADY_INVITED, player));
         }
 
         nation.addInvited(player.getUniqueId());
         sendMessage(t(Messages.INVITED_PLAYER, player));
-        sendMessage(player, t(Messages.YOU_HAVE_BEEN_INVITED, nation));
+        return sendMessage(player, t(Messages.YOU_HAVE_BEEN_INVITED, nation));
     }
 
-    public void newNation(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    public boolean newNation(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         if (args.length <= 1) {
-            sendMessage(t(Messages.USAGE, label, "create", "<name>"));
-            return;
+            return sendMessage(t(Messages.USAGE, label, "create", "<name>"));
         }
 
         if (NationManager.isInNation((Player) sender)) {
-            sendMessage(t(Messages.ALREADY_IN_NATION));
-            return;
+            return sendMessage(t(Messages.ALREADY_IN_NATION));
         }
 
         String name = args[1];
 
         // check if name is valid (ascii)
         if (!name.matches("^[a-zA-Z0-9]*$") || name.length() > 16) {
-            sendMessage(t(Messages.INVALID_NAME));
-            return;
+            return sendMessage(t(Messages.INVALID_NAME));
         }
 
         // create nation
@@ -373,7 +339,7 @@ public class NationsCommand extends BaseCommand {
         Nations.getNationManager().add(nation);
 
         // send message
-        sendMessage(t(Messages.NEW_NATION, nation));
+        return sendMessage(t(Messages.NEW_NATION, nation));
     }
 
     @Override
