@@ -35,43 +35,18 @@ public class NationsCommand extends BaseCommand {
         }
 
         switch (args[0]) {
-            case "create":
-                newNation(sender, label, args);
-                break;
-            case "invite":
-                invite(sender, label, args);
-                break;
-            case "kick":
-                kick(sender, label, args);
-                break;
-            case "list":
-                list(sender, label, args);
-                break;
-            case "quit":
-                quit(sender, label, args);
-                break;
-            case "info":
-                info(sender, label, args);
-                break;
-            case "option":
-                option(sender, label, args);
-                break;
-            case "join":
-                join(sender, label, args);
-                break;
-            case "reload":
-                reload(sender, label, args);
-                break;
-            case "force-delete":
-                forceDelete(sender, label, args);
-                break;
-            case "cancel-invite":
-                cancelInvite(sender, label, args);
-                break;
-            case "help":
-            default:
-                help(sender, label, args);
-                break;
+            case "create" -> newNation(sender, label, args);
+            case "invite" -> invite(sender, label, args);
+            case "kick" -> kick(sender, label, args);
+            case "list" -> list(sender, label, args);
+            case "quit", "leave" -> quit(sender, label, args);
+            case "info" -> info(sender, label, args);
+            case "option" -> option(sender, label, args);
+            case "join" -> join(sender, label, args);
+            case "reload" -> reload(sender, label, args);
+            case "force-delete" -> forceDelete(sender, label, args);
+            case "cancel-invite" -> cancelInvite(sender, label, args);
+            default -> help(sender, label, args);
         }
     }
 
@@ -134,7 +109,7 @@ public class NationsCommand extends BaseCommand {
             case "invite" -> sendMessage(t(Messages.USAGE, label, "invite", "<player>"));
             case "kick" -> sendMessage(t(Messages.USAGE, label, "kick", "<player>"));
             case "list" -> sendMessage(t(Messages.USAGE, label, "list", ""));
-            case "quit" -> sendMessage(t(Messages.USAGE, label, "quit", ""));
+            case "quit", "leave" -> sendMessage(t(Messages.USAGE, label, "quit", ""));
             case "info" -> sendMessage(t(Messages.USAGE, label, "info", ""));
             case "option" -> sendMessage(t(Messages.USAGE, label, "option", "<key> <value>"));
             case "join" -> sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
