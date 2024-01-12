@@ -63,11 +63,11 @@ public class NationManager {
     public static void updatePlayersName(@NotNull UUID uuid) {
         Player player = Nations.getPlugin(Nations.class).getServer().getPlayer(uuid);
         if (player == null) return;
-        if (isInNation(player)) {
-            Nation nation = getPlayerNation(player.getUniqueId());
-            player.displayName(Nations.t(Messages.NATION_DISPLAYNAME, nation, player));
-        } else {
+        Nation nation = getPlayerNation(player.getUniqueId());
+        if (nation == null) {
             player.displayName(Nations.t(Messages.PLAYER_DISPLAYNAME, player));
+        } else {
+            player.displayName(Nations.t(Messages.NATION_DISPLAYNAME, nation, player));
         }
         player.playerListName(player.displayName());
     }

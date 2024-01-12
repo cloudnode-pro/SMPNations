@@ -61,8 +61,9 @@ public final class Nations extends JavaPlugin {
         nationManager.load();
 
         // register commands
-        Objects.requireNonNull(this.getCommand("nations")).setExecutor(new NationsCommand(this));
-        Objects.requireNonNull(this.getCommand("nations")).setTabCompleter(new NationsCommand(this));
+        NationsCommand nationsCommand = new NationsCommand();
+        Objects.requireNonNull(this.getCommand("nations")).setExecutor(nationsCommand);
+        Objects.requireNonNull(this.getCommand("nations")).setTabCompleter(nationsCommand);
 
         // register chat listener
         getServer().getPluginManager().registerEvents(new ChatMessageListener(), this);
