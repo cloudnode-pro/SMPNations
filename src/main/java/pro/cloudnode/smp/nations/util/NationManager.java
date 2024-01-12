@@ -72,6 +72,12 @@ public class NationManager {
         player.playerListName(player.displayName());
     }
 
+    public static boolean isNationLeader(@NotNull UUID uuid) {
+        Nation nation = getPlayerNation(uuid);
+        if (nation == null) return false;
+        return nation.leader.equals(uuid);
+    }
+
     /**
      * Add a nation
      *
@@ -149,6 +155,10 @@ public class NationManager {
 
     public List<String> getNationsInviting(UUID uuid) {
         return nations.values().stream().filter(nation -> nation.invited.contains(uuid)).map(nation -> nation.name).toList();
+    }
+
+    public static List<Player> getNationInvites(Nation nation) {
+        return nation.invited.stream().map(uuid -> Nations.getPlugin(Nations.class).getServer().getPlayer(uuid)).toList();
     }
 
     /**

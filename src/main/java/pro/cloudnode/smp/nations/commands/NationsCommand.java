@@ -65,11 +65,46 @@ public class NationsCommand extends BaseCommand {
             case "force-delete":
                 forceDelete(sender, label, args);
                 break;
+            case "cancel-invite":
+                cancelInvite(sender, label, args);
+                break;
             case "help":
             default:
                 help(sender, label, args);
                 break;
         }
+    }
+
+    private void cancelInvite(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+        if (args.length <= 1) {
+            sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
+            return;
+        }
+
+        Nation nation = NationManager.getPlayerNation(getPlayer().getUniqueId());
+        if (nation == null) {
+            sendMessage(t(Messages.NOT_IN_NATION));
+            return;
+        }
+
+        if (!nation.leader.equals(getPlayer().getUniqueId())) {
+            sendMessage(t(Messages.NOT_LEADER));
+            return;
+        }
+
+        Player player = Bukkit.getPlayer(args[1]);
+        if (player == null) {
+            sendMessage(t(Messages.PLAYER_NOT_FOUND, args[1]));
+            return;
+        }
+
+        if (!nation.invited.contains(player.getUniqueId())) {
+            sendMessage(t(Messages.PLAYER_NOT_INVITED, player));
+            return;
+        }
+
+        nation.removeInvited(player.getUniqueId());
+        sendMessage(t(Messages.CANCELED_INVITE, player));
     }
 
     // help for each command
@@ -86,6 +121,7 @@ public class NationsCommand extends BaseCommand {
             sendMessage(t(Messages.COMMANDS_ITEM, "option", "<key> <value>", "set options for your nation"));
             sendMessage(t(Messages.COMMANDS_ITEM, "join", "<nation>", "join a nation"));
             sendMessage(t(Messages.COMMANDS_ITEM, "help", "", "show this help message"));
+            sendMessage(t(Messages.COMMANDS_ITEM, "cancel-invite", "<player>", "cancel an invite to your nation"));
             if (sender.hasPermission("nations.admin")) {
                 sendMessage(t(Messages.COMMANDS_ITEM, "force-delete", "<nation>", "force delete a nation"));
                 sendMessage(t(Messages.COMMANDS_ITEM, "reload", "", "reload the plugin"));
@@ -117,6 +153,9 @@ public class NationsCommand extends BaseCommand {
                 break;
             case "join":
                 sendMessage(t(Messages.USAGE, label, "join", "<nation>"));
+                break;
+            case "cancel-invite":
+                sendMessage(t(Messages.USAGE, label, "cancel-invite", "<player>"));
                 break;
             default:
                 help(sender, label, new String[0]);
@@ -386,11 +425,17 @@ public class NationsCommand extends BaseCommand {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         Stream<String> commands = Stream.of("list", "help");
-        if (NationManager.isInNation(player))
-            commands = Stream.concat(commands, Stream.of("quit", "kick", "invite", "info", "option"));
-        else commands = Stream.concat(commands, Stream.of("join", "create"));
+        Nation nation = null;
+        if (NationManager.isNationLeader(player.getUniqueId()))
+            commands = Stream.concat(commands, Stream.of("kick", "invite", "cancel-invite", "option"));
+        if (NationManager.isInNation(player.getUniqueId())) {
+            commands = Stream.concat(commands, Stream.of("quit", "info"));
+            nation = NationManager.getPlayerNation(player.getUniqueId());
+        } else commands = Stream.concat(commands, Stream.of("join", "create"));
         if (sender.hasPermission("nations.admin"))
             commands = Stream.concat(commands, Stream.of("force-delete", "reload"));
+
+
         // sort alphabetically
         commands = commands.sorted();
         return switch (args.length) {
@@ -401,6 +446,10 @@ public class NationsCommand extends BaseCommand {
                 case "option" -> List.of("color");
                 case "join" -> Nations.getNationManager().getNationsInviting(player.getUniqueId());
                 case "force-delete" -> Nations.getNationManager().getNations();
+                case "cancel-invite" -> {
+                    if (nation == null) yield EMPTY;
+                    yield NationManager.getNationInvites(nation).stream().map(Player::getName).toList();
+                }
                 case "help" -> commands.filter(s -> s.startsWith(args[1])).toList();
                 default -> EMPTY;
             };
