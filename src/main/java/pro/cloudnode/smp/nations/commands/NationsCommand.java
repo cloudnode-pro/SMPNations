@@ -195,7 +195,7 @@ public class NationsCommand extends BaseCommand {
                 return;
             }
             String color = args[2].toLowerCase();
-            boolean isHex = color.startsWith("#") && color.length() == 7 && color.matches("#[0-9a-fA-F]+");
+            boolean isHex = color.matches("^#[0-9a-f]{6}$");
             if (!COLORS.contains(color) && !isHex) {
                 sendMessage(t(Messages.INVALID_COLOR));
                 return;
