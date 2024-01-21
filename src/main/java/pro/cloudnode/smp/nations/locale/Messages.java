@@ -62,7 +62,8 @@ public enum Messages {
     PLAYER_JOIN_SERVER("player-join-server", "<gray>[<green>+<gray>] <gray>(<nation_color><nation_name><gray>) <nation_color><player_name>"),
     PLAYER_LEAVE_SERVER("player-leave-server", "<gray>[<red>-<gray>] <gray>(<nation_color><nation_name><gray>) <nation_color><player_name>"),
     PLAYER_NOT_INVITED("player-not-invited", "<red>(!) Player <white><player><red> is not invited to your nation."),
-    CANCELED_INVITE("canceled-invite", "<aqua>You have canceled the invite for <white><player><aqua>");
+    CANCELED_INVITE("canceled-invite", "<aqua>You have canceled the invite for <white><player><aqua>"),
+    PLUGIN_INFO("plugin-info", "<aqua>Running SMPNations, v<white>$0<aqua> for <white>$1");
 
     public final String key;
 

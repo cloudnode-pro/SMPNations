@@ -3,6 +3,7 @@ package pro.cloudnode.smp.nations;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import pro.cloudnode.smp.nations.commands.NationsCommand;
 import pro.cloudnode.smp.nations.listeners.ChatMessageListener;
@@ -55,5 +56,19 @@ public final class Nations extends JavaPlugin {
     @Override
     public void onDisable() {
         nationManager.save();
+    }
+
+    public static Nations getInstance() {
+        return getPlugin(Nations.class);
+    }
+
+    @ApiStatus.Experimental
+    public static String getVersion() {
+        return getInstance().getPluginMeta().getVersion();
+    }
+
+    @ApiStatus.Experimental
+    public static String getMinecraftVersion() {
+        return getInstance().getPluginMeta().getAPIVersion();
     }
 }

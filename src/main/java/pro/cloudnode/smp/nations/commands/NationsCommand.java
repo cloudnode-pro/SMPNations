@@ -78,23 +78,10 @@ public class NationsCommand extends BaseCommand {
 
     // help for each command
     private boolean help(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
-        if (args.length <= 1) {
-            // list of commands
-            sendMessage(t(Messages.COMMANDS_HEADER));
-            sendMessage(t(Messages.COMMANDS_ITEM, "create", "<name>", "create a new nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "invite", "<player>", "invite a player to your nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "kick", "<player>", "kick a player from your nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "list", "", "list all nations"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "quit", "", "quit your nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "info", "", "get info about your nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "option", "<key> <value>", "set options for your nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "join", "<nation>", "join a nation"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "help", "", "show this help message"));
-            sendMessage(t(Messages.COMMANDS_ITEM, "cancel-invite", "<player>", "cancel an invite to your nation"));
-            if (sender.hasPermission("nations.admin")) {
-                sendMessage(t(Messages.COMMANDS_ITEM, "force-delete", "<nation>", "force delete a nation"));
-                sendMessage(t(Messages.COMMANDS_ITEM, "reload", "", "reload the plugin"));
-            }
+        // send plugin info
+        if (args.length == 0) {
+            sendMessage(t(Messages.PLUGIN_INFO, Nations.getVersion(), Nations.getMinecraftVersion()));
+            return true;
         }
 
         switch (args[1]) {
